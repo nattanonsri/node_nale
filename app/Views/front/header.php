@@ -23,6 +23,7 @@
     'assets/aos/css/aos.css',
     'assets/dataTable/css/datatables.min.css',
     'assets/bootstrap5/css/bootstrap.min.css',
+    'assets/date-picker/css/daterangepicker.css',
 
   ];
   $minifiedCssFile = 'assets/css/minified_backend.css';
@@ -30,11 +31,15 @@
 
   $inputJsFiles = [
     'assets/jquery/jquery.min.js',
+    'assets/bootstrap5/js/bootstrap.bundle.min.js',
     'assets/dataTable/js/dataTables.min.js',
     'assets/sweetaert2/js/sweetalert2@11.js',
     'assets/aos/js/aos.js',
-    'assets/bootstrap5/js/bootstrap.bundle.min.js',
     'assets/chart/chart.js',
+    // 'assets/date-picker/js/jquery.min.js',
+    'assets/date-picker/js/moment.min.js',
+    'assets/date-picker/js/daterangepicker.min.js',
+
   ];
   $outputJsFile = 'assets/js/minified_backend.min.js';
 
@@ -45,13 +50,13 @@
 
   ?>
   <link rel="stylesheet" type="text/css" href="<?= asset_url($minifiedCssFile) ?>">
-  <!-- <script src="<?= base_url() ?>assets/jquery/jquery.min.js"></script> -->
 
   <script>
     var base_url = '<?= base_url(); ?>';
     var asset_url = '<?= asset_url(); ?>';
   </script>
 
+  
   <script src="<?= asset_url($outputJsFile); ?>"></script>
 </head>
 

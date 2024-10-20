@@ -31,4 +31,11 @@
             <span class="fs-6"><?= lang('backend.category') ?></span>
         </a>
     </li>
+
+    <li class="nav-item sidebar-backend-item" data-target="#sidebar-activity">
+        <a class="nav-link" role="button" id="sideber-activity-table">
+            <i class="fa-solid fa-person-running"></i>
+            <span class="fs-6"><?= lang('backend.activity') ?></span>
+        </a>
+    </li>
 </ul>
