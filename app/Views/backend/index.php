@@ -21,6 +21,12 @@
             <div class="container-fluid item-content d-none" id="sidebar-activity">
                 <div id="content-activity"></div>
             </div>
+            <div class="container-fluid item-content d-none" id="sidebar-album">
+                <div id="content-album"></div>
+            </div>
+            <div class="container-fluid item-content d-none" id="sidebar-book">
+                <div id="content-book"></div>
+            </div>
         </div>
         <!-- <footer class="sticky-footer bg-white">
             <div class="container my-auto">
@@ -139,12 +145,69 @@
 </div>
 
 
+<!-- edit activity Modal -->
+<div class="modal fade" id="editActivityModal" tabindex="-1" aria-labelledby="editActivityLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"><?= lang('backend.activity-from-add') ?></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          <div id="content_activity"></div>
+        </div>
+    </div>
+</div>
 
+<!-- add activity Modal -->
+<div class="modal fade" id="addAlbumModal" tabindex="-1" aria-labelledby="activityLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"><?= lang('backend.activity-from-add') ?></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="frmAlbum">
+                <div class="modal-body">
+                    <label>รูปขนาด 1720x1280 <span class="text-danger">*</span></label>
+
+                    <div class="drop-area" id="drop-area">
+                        ลากไฟล์มาวางที่นี่ หรือ คลิกเพื่อเลือกไฟล์
+                    </div>
+                    <input type="file" accept=".jpg, .jpeg, .png" name="file" id="file-input" style="display: none;">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal"><?= lang('backend.cancel') ?></button>
+                    <button type="submit" class="btn btn-primary"><?= lang('backend.seve-add') ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .drop-area {
+        border: 2px solid #007bff;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .drop-area.highlight {
+        border-color: #0056b3;
+    }
+</style>
 <script>
     $(document).ready(function () {
+        loadContentDashboard();
         loadContentUsers();
+        loadContentAdministrator();
         loadContentCategory();
-        loadContenActivity();
+        loadContentActivity();
+        loadContentAlbum();
+        loadContentBook();
 
 
         $('input[name="datetimes"]').daterangepicker({
@@ -153,14 +216,122 @@
             startDate: moment().startOf('hour'),
             endDate: moment().startOf('hour').add(32, 'hour'),
             locale: {
-                format: 'M/DD hh:mm'
+                format: 'M/DD hh:mm',
+                separator: ' - ',
+                applyLabel: 'ยืนยัน',
+                cancelLabel: 'ยกเลิก',
+                fromLabel: 'จาก',
+                toLabel: 'ถึง',
+                daysOfWeek: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                monthNames: [
+                    'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+                    'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+                ]
             }
-        }, function (start, end, lebal) {
+        }, function (start, end, label) {
             $('#start_date').val(start.format('YYYY-MM-DD HH:mm:ss'));
             $('#end_date').val(end.format('YYYY-MM-DD HH:mm:ss'));
         });
-
     })
+
+
+    // เพิ่มฟังก์ชันตรวจสอบขนาดรูปภาพ
+    function validateImageDimensions(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = function (e) {
+                const img = new Image();
+                img.src = e.target.result;
+
+                img.onload = function () {
+                    if (this.width === 1720 && this.height === 1280) {
+                        resolve(true);
+                    } else {
+                        // reject(`ขนาดรูปภาพไม่ถูกต้อง <br> กรุณาอัพโหลดรูปขนาด ${this.width}x${this.height}px`);
+                        reject(`ขนาดรูปภาพไม่ถูกต้อง <br> กรุณาอัพโหลดรูปขนาด 1720x1280px`);
+                    }
+                };
+            };
+        });
+    }
+
+    // ปรับปรุง event submit
+    $('#frmAlbum').submit(function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const fileInput = document.getElementById('file-input');
+
+        if (!fileInput.files || !fileInput.files[0]) {
+            Swal.fire({
+                icon: 'warning',
+                title: '<?= lang('backend.notification') ?>',
+                html: 'กรุณาเลือกรูปภาพ',
+            });
+            return;
+        }
+
+        validateImageDimensions(fileInput.files[0])
+            .then(() => {
+                // ส่งข้อมูลไปยังเซิร์ฟเวอร์เมื่อผ่านการตรวจสอบ
+                $.ajax({
+                    url: `${asset_url}backend/addAlbumActivcity`,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        '<?= csrf_header() ?>': '<?= csrf_hash() ?>',
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status == 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '<?= lang('backend.notification') ?>',
+                                html: data.message,
+                            }).then(function () {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'warning',
+                                title: '<?= lang('backend.notification') ?>',
+                                html: data.message,
+                            });
+                        }
+                    }
+                });
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '<?= lang('backend.notification') ?>',
+                    html: error,
+                });
+            });
+    });
+
+    // เพิ่ม event สำหรับแสดงตัวอย่างรูปภาพและตรวจสอบขนาดทันทีที่เลือกไฟล์
+    $('#file-input').change(function () {
+        const file = this.files[0];
+        if (file) {
+            validateImageDimensions(file)
+                .then(() => {
+                    // สามารถเพิ่มโค้ดแสดงตัวอย่างรูปภาพที่นี่
+                    console.log('รูปภาพถูกต้อง');
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '<?= lang('backend.notification') ?>',
+                        html: error,
+                    });
+                    this.value = ''; // ล้างค่าไฟล์ที่เลือก
+                });
+        }
+    });
 
     $('.sidebar-backend-item').click(function () {
         let target = $(this).attr('data-target');
@@ -170,13 +341,75 @@
         $(this).addClass('active');
     });
 
+    const $dropArea = $('#drop-area');
+
+    // เมื่อผู้ใช้คลิกที่ drop-area เพื่อเปิด dialog เลือกไฟล์
+    $dropArea.on('click', function () {
+        $('#file-input').click(); // คลิกที่ input file แทน
+    });
+
+    // เมื่อไฟล์ถูกเลือกจาก input
+    $('#file-input').on('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            displayImage(file);
+        }
+    });
+
+    // เมื่อไฟล์ถูกลากเข้ามาในพื้นที่
+    $dropArea.on('dragover', function (event) {
+        event.preventDefault();
+        $dropArea.addClass('highlight');
+    });
+
+    // เมื่อไฟล์ถูกลากออกจากพื้นที่
+    $dropArea.on('dragleave', function () {
+        $dropArea.removeClass('highlight');
+    });
+
+    // เมื่อไฟล์ถูกปล่อยลงในพื้นที่
+    $dropArea.on('drop', function (event) {
+        event.preventDefault();
+        $dropArea.removeClass('highlight');
+        const file = event.originalEvent.dataTransfer.files[0];
+        if (file) {
+            displayImage(file);
+        }
+    });
+
+    // แสดงภาพที่อัปโหลด
+    function displayImage(file) {
+        const imgURL = URL.createObjectURL(file);
+        $dropArea.html(`<img src="${imgURL}" style="max-width: 100%; height: auto;">`);
+
+        // อัปเดต input file เพื่อให้ส่งข้อมูลไปยังเซิร์ฟเวอร์
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        $('#file-input')[0].files = dataTransfer.files;
+    }
+
+
+
     function btnCreateCategory() {
         $('#add_category_modal').modal('show')
+    }
+    function loadContentDashboard() {
+        $.ajax({
+            url: `${asset_url}backend/contentDashboard`,
+            type: 'POST',
+            data: {
+                '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
+            },
+            dataType: 'html',
+            success: function (result) {
+                $('#content-dashboard').html(result);
+            }
+        });
     }
 
     function loadContentUsers() {
         $.ajax({
-            url: `${base_url}backend/contentUser`,
+            url: `${asset_url}backend/contentUser`,
             type: 'POST',
             data: {
                 '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
@@ -187,9 +420,24 @@
             }
         });
     }
+
+    function loadContentAdministrator() {
+        $.ajax({
+            url: `${asset_url}backend/contentAdministrator`,
+            type: 'POST',
+            data: {
+                '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
+            },
+            dataType: 'html',
+            success: function (result) {
+                $('#content-administrator').html(result);
+            }
+        });
+    }
+
     function loadContentCategory() {
         $.ajax({
-            url: `${base_url}backend/contentCategory`,
+            url: `${asset_url}backend/contentCategory`,
             type: 'POST',
             data: {
                 '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
@@ -200,9 +448,10 @@
             }
         });
     }
-    function loadContenActivity() {
+
+    function loadContentActivity() {
         $.ajax({
-            url: `${base_url}backend/contentActivity`,
+            url: `${asset_url}backend/contentActivity`,
             type: 'POST',
             data: {
                 '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
@@ -213,11 +462,37 @@
             }
         });
     }
+    function loadContentAlbum() {
+        $.ajax({
+            url: `${asset_url}backend/contentAlbum`,
+            type: 'POST',
+            data: {
+                '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
+            },
+            dataType: 'html',
+            success: function (result) {
+                $('#content-album').html(result);
+            }
+        });
+    }
+    function loadContentBook() {
+        $.ajax({
+            url: `${asset_url}backend/contentBook`,
+            type: 'POST',
+            data: {
+                '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
+            },
+            dataType: 'html',
+            success: function (result) {
+                $('#content-book').html(result);
+            }
+        });
+    }
 
 
     function btnSeveCategory() {
         $.ajax({
-            url: `${base_url}/backend/addCategory`,
+            url: `${asset_url}backend/addCategory`,
             type: 'POST',
             data: {
                 name_th: $('#name_th').val(),
@@ -231,16 +506,16 @@
                 if (data.status == 200) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'แจ้งเตือน!',
-                        text: data.message
+                        title: '<?= lang('backend.notification') ?>',
+                        html: data.message
                     }).then(function () {
                         window.location.reload();
                     })
                 } else {
                     Swal.fire({
                         icon: 'warning',
-                        title: 'แจ้งเตือน!',
-                        text: data.message
+                        title: '<?= lang('backend.notification') ?>',
+                        html: data.message
                     })
                 }
             }
@@ -255,7 +530,7 @@
         // form_data.append('image', image);
 
         $.ajax({
-            url: `${base_url}/backend/addActivity`,
+            url: `${asset_url}backend/addActivity`,
             type: 'POST',
             processData: false,
             contentType: false,
@@ -268,16 +543,16 @@
                 if (data.status == 200) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'แจ้งเตือน!',
-                        text: data.message
+                        title: '<?= lang('backend.notification') ?>',
+                        html: data.message
                     }).then(function () {
                         window.location.reload();
                     })
                 } else {
                     Swal.fire({
                         icon: 'warning',
-                        title: 'แจ้งเตือน!',
-                        text: data.message
+                        title: '<?= lang('backend.notification') ?>',
+                        html: data.message
                     })
                 }
             }

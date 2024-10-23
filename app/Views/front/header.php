@@ -54,9 +54,20 @@
   <script>
     var base_url = '<?= base_url(); ?>';
     var asset_url = '<?= asset_url(); ?>';
+
+
+    // window.onload = function () {
+    //   if (typeof jQuery === 'undefined') {
+    //     console.error('jQuery is not loaded!');
+    //   } else {
+    //     $(document).ready(function () {
+    //       console.log('loaded');
+    //     });
+    //   }
+    // }
   </script>
 
-  
+
   <script src="<?= asset_url($outputJsFile); ?>"></script>
 </head>
 

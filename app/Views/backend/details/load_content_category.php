@@ -8,7 +8,7 @@
         </p> -->
 
         <div class="card-body mt-4">
-            <button type="button" class="btn btn-primary btn-lg" onclick="btnCreateCategory()"
+            <button type="button" class="btn btn-primary" onclick="btnCreateCategory()"
                 style="float: inline-end;"><?= lang('backend.add-category') ?></button>
             <div class="table-responsive">
                 <table class="table table-striped" id="my_category" width="100%" cellspacing="0">
@@ -93,13 +93,13 @@
         })
     }
 
-  
+
 
 
     function deletecCats(id) {
 
         Swal.fire({
-            icon: 'warning',
+            icon: 'question',
             title: 'คุณแน่ใจหรือไม่?',
             text: "คุณไม่สามารถย้อนกลับได้หลังจากลบข้อมูล!",
             showCancelButton: true,
@@ -123,7 +123,7 @@
                         if (data.status == 200) {
                             swal.fire({
                                 icon: 'success',
-                                title: 'แจ้งเตือน!',
+                                title: '<?= lang('backend.notification') ?>',
                                 text: data.message,
                             }).then(function () {
                                 location.reload();
@@ -131,7 +131,7 @@
                         } else {
                             Swal.fire({
                                 icon: 'warning',
-                                title: 'แจ้งเตือน!',
+                                title: '<?= lang('backend.notification') ?>',
                                 text: data.message,
 
                             });

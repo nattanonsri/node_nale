@@ -4,7 +4,7 @@
 
     <div class="card shadow ">
         <div class="card-body mt-4">
-            <button type="button" class="btn btn-primary btn-lg" onclick="btnCreateActivity()"
+            <button type="button" class="btn btn-primary" onclick="btnCreateActivity()"
                 style="float: inline-end;"><?= lang('backend.add-activity') ?></button>
             <div class="table-responsive">
                 <table class="table table-striped" id="my_activity" width="100%" cellspacing="0">
@@ -29,7 +29,7 @@
                             //(!empty($act['image']) ? $act['image'] : lang('backend.null-value'))
                             echo '<tr>
                                     <td>' . $n . '</td>
-                                    <td><img src="'. asset_url($act['image']) .'" width="140px"></td>
+                                    <td><img src="' . asset_url($act['image']) . '" width="140px"></td>
                                     <td>' . $act['name'] . '</td>
                                     <td>' . $act['price'] . '</td>
                                     <td>' . $startDateTime->format('H:i:s d/m/Y') . '</td>
@@ -46,7 +46,7 @@
                             $n++;
                         }
                         ?>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -86,7 +86,7 @@
         var myModal = new bootstrap.Modal($('#addActivityModal'));
         myModal.show();
     }
-    function deleteActs(uuid){
+    function deleteActs(uuid) {
 
         Swal.fire({
             icon: 'question',
@@ -100,7 +100,7 @@
         }).then(function (result) {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `${base_url}/backend/deleteActivity/${uuid}`,
+                    url: `${base_url}backend/deleteActivity/${uuid}`,
                     type: 'POST',
                     data: {
                         uuid: uuid,
@@ -113,7 +113,7 @@
                         if (data.status == 200) {
                             swal.fire({
                                 icon: 'success',
-                                title: 'แจ้งเตือน!',
+                                title: '<?= lang('backend.notification') ?>',
                                 text: data.message,
                             }).then(function () {
                                 location.reload();
@@ -121,7 +121,7 @@
                         } else {
                             Swal.fire({
                                 icon: 'warning',
-                                title: 'แจ้งเตือน!',
+                                title: '<?= lang('backend.notification') ?>',
                                 text: data.message,
 
                             });
@@ -132,67 +132,22 @@
         });
     }
 
-    function btnEditCats(id) {
+    function btnEditActs(uuid) {
         $.ajax({
-            url: `${base_url}/backend/editCategoryModal/${id}`,
+            url: `${base_url}backend/editActivityModal/${uuid}`,
             type: 'POST',
             data: {
-                id: id
+                uuid: uuid
             },
             headers: {
                 '<?= csrf_header() ?>': '<?= csrf_hash() ?>'
             },
             dataType: 'html',
             success: function (result) {
-                $('#content_category').html(result);
-                $('#editCategoryModal').modal('show');
+                $('#content_activity').html(result);
+                $('#editActivityModal').modal('show');
             }
         })
     }
-
-    function deletecCats(id) {
-
-        Swal.fire({
-            icon: 'question',
-            title: 'คุณแน่ใจหรือไม่?',
-            text: "คุณไม่สามารถย้อนกลับได้หลังจากลบข้อมูล!",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'ใช่, ลบข้อมูล!',
-            cancelButtonText: 'ยกเลิก'
-        }).then(function (result) {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: `${base_url}/backend/deleteCategory/${id}`,
-                    type: 'POST',
-                    data: {
-                        id: id,
-                    },
-                    headers: {
-                        '<?= csrf_header() ?>': '<?= csrf_hash() ?>'
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data.status == 200) {
-                            swal.fire({
-                                icon: 'success',
-                                title: 'แจ้งเตือน!',
-                                text: data.message,
-                            }).then(function () {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'แจ้งเตือน!',
-                                text: data.message,
-
-                            });
-                        }
-                    }
-                });
-            }
-        });
-    }
+    
 </script>

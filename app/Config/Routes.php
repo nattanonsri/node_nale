@@ -14,17 +14,41 @@ $routes->set404Override();
 
 
 $baseSubURL = env('app.baseDIR');
-$routes->get($baseSubURL.'/', 'HomeController::index');
+$backendPrefix = $baseSubURL . '/backend';
+$routes->get($baseSubURL . '/', 'HomeController::index');
 
+$routes->match(['get', 'post'], $backendPrefix . '/login', 'BackendController::login');
+$routes->get($backendPrefix . '/logout', 'BackendController::logout');
 
-$routes->get($baseSubURL. '/backend', 'BackendController::index');
-$routes->get($baseSubURL. '/backend/dashboard', 'BackendController::dashboard');
-$routes->post($baseSubURL. '/backend/contentUser', 'BackendController::load_content_user');
-$routes->post($baseSubURL. '/backend/contentCategory', 'BackendController::load_content_category');
-$routes->post($baseSubURL. '/backend/contentActivity', 'BackendController::load_content_activity');
-$routes->post($baseSubURL. '/backend/addCategory', 'BackendController::add_category');
-$routes->post($baseSubURL. '/backend/editCategoryModal/(:num)', 'BackendController::edit_category_modal/$1');
-$routes->post($baseSubURL. '/backend/editCategory/(:num)', 'BackendController::edit_category/$1');
-$routes->post($baseSubURL. '/backend/deleteCategory/(:num)', 'BackendController::delete_category/$1');
-$routes->post($baseSubURL. '/backend/addActivity/', 'BackendController::add_activity');
-$routes->post($baseSubURL. '/backend/deleteActivity/(:any)', 'BackendController::delete_activity/$1');
+// Routes ที่ต้องผ่าน isAdmin filter
+$routes->group($backendPrefix, ['filter' => 'isAdmin'], function ($routes) {
+    // GET routes
+    $routes->get('', 'BackendController::index');
+   
+    // POST routes for content loading
+    $routes->post('contentDashboard', 'BackendController::load_content_dashboard');
+    $routes->post('contentUser', 'BackendController::load_content_user');
+    $routes->post('contentCategory', 'BackendController::load_content_category');
+    $routes->post('contentActivity', 'BackendController::load_content_activity');
+    $routes->post('contentAdministrator', 'BackendController::load_content_administrator');
+    $routes->post('contentAlbum', 'BackendController::load_content_album');
+    $routes->post('contentBook', 'BackendController::load_content_book');
+
+    // Category management
+    $routes->post('addCategory', 'BackendController::add_category');
+    $routes->post('editCategoryModal/(:num)', 'BackendController::edit_category_modal/$1');
+    $routes->post('editCategory/(:num)', 'BackendController::edit_category/$1');
+    $routes->post('deleteCategory/(:num)', 'BackendController::delete_category/$1');
+
+    // Activity management
+    $routes->post('addActivity', 'BackendController::add_activity');
+    $routes->post('editActivityModal/(:any)', 'BackendController::edit_activity_modal/$1');
+    $routes->post('editActivity/(:any)', 'BackendController::edit_activity/$1');
+    $routes->post('deleteActivity/(:any)', 'BackendController::delete_activity/$1');
+    //Album Activity management
+    $routes->post('addAlbumActivcity', 'BackendController::add_album_activcity');
+    $routes->post('deleteAlbumActivcity/(:any)', 'BackendController::delete_album_activcity/$1');
+
+    //Book Activity management
+    // $routes->post('addBookActivcity', 'BackendController::add_book_activcity');
+});

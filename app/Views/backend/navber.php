@@ -6,12 +6,12 @@
         <div class="topbar-divider d-sm-block"></div>
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" role="button" id="btnDropdown" aria-expanded="false">
-                <span class="mr-2 d-lg-inline text-gray-600 small"></span>
+                <span class="mr-2 d-lg-inline text-gray-600 small"><?= session()->get('username') ?></span>
                 <i class="fa-solid fa-chevron-down"></i>
             </a>
             <div class="dropdown-menu" id="dropdownMenu" aria-labelledby="btnDropdown"
                 style="max-width: 200px; display: none;">
-                <a class="dropdown-item" href="<?= base_url() . 'backend/login' ?>">
+                <a class="dropdown-item" href="<?= base_url() . 'backend/logout' ?>">
                     <i class="fa-solid fa-arrow-right-from-bracket fa-sm mr-1 text-gray-400"></i>
                     <?= lang('backend.logout') ?>
                 </a>

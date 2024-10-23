@@ -7,11 +7,11 @@ use CodeIgniter\Model;
 class MemberModel extends Model
 {
     protected $DBGroup = 'default';
-    protected $table = 'tb_user';
+    protected $table = 'tb_users';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
     protected $returnType = 'array';
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
     protected $protectFields = false;
     protected $allowedFields = [];
 
@@ -37,4 +37,31 @@ class MemberModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+
+    public function getLoginCountsByDate()
+    {
+        // $current = CURRENT_DATE;
+        $current = date('Y-m-d', strtotime(CURRENT_DATE));
+        $new_date1 = date('Y-m-d', strtotime('-1 days', strtotime(CURRENT_DATE)));
+        $new_date2 = date('Y-m-d', strtotime('-2 days', strtotime(CURRENT_DATE)));
+        $new_date3 = date('Y-m-d', strtotime('-3 days', strtotime(CURRENT_DATE)));
+        $new_date4 = date('Y-m-d', strtotime('-4 days', strtotime(CURRENT_DATE)));
+
+        $get_dateTime1 = $this->where('DATE(updated_at)', $current)->countAllResults();
+        $get_dateTime2 = $this->where('DATE(updated_at)', $new_date1)->countAllResults();
+        $get_dateTime3 = $this->where('DATE(updated_at)', $new_date2)->countAllResults();
+        $get_dateTime4 = $this->where('DATE(updated_at)', $new_date3)->countAllResults();
+        $get_dateTime5 = $this->where('DATE(updated_at)', $new_date4)->countAllResults();
+
+
+        return [
+            'get_dateTime1' => $get_dateTime1,
+            'get_dateTime2' => $get_dateTime2,
+            'get_dateTime3' => $get_dateTime3,
+            'get_dateTime4' => $get_dateTime4,
+            'get_dateTime5' => $get_dateTime5,
+        ];
+
+    }
 }

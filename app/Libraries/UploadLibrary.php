@@ -16,11 +16,13 @@ class UploadLibrary
     public function upload($path = 'uploads', $newName = null)
     {
         if ($this->file->isValid() && !$this->file->hasMoved()) {
+
+            $originalName = pathinfo($this->file->getClientName(), PATHINFO_FILENAME);
             $newName = $newName ?: $this->file->getRandomName();
             $this->file->move(LIBRARY_PATH . '/' . $path, $newName);
             return [
                 'success' => true,
-                'file_name' => $newName,
+                'name' => $originalName,
                 'path_file_name' => LIBRARY_PATH . '/' . $path . '/' . $newName,
                 'message' => 'File uploaded successfully!'
             ];

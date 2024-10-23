@@ -38,4 +38,16 @@
             <span class="fs-6"><?= lang('backend.activity') ?></span>
         </a>
     </li>
+    <li class="nav-item sidebar-backend-item" data-target="#sidebar-album">
+        <a class="nav-link" role="button" id="sideber-album-table">
+            <i class="fa-solid fa-images"></i>
+            <span class="fs-6"><?= lang('backend.album') ?></span>
+        </a>
+    </li>
+    <li class="nav-item sidebar-backend-item" data-target="#sidebar-book">
+        <a class="nav-link" role="button" id="sideber-book-table">
+            <i class="fa-solid fa-book-bookmark"></i>
+            <span class="fs-6"><?= lang('backend.book') ?></span>
+        </a>
+    </li>
 </ul>

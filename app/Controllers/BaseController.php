@@ -42,6 +42,14 @@ abstract class BaseController extends Controller
         $locale = get_language();
         $this->request->setLocale($locale);
     }
+
+    function set_session_constant($constantName, $sessionKey)
+    {
+        $session = \Config\Services::session();
+        $sessionValue = $session->get($sessionKey);
+
+        define($constantName, $sessionValue ?? '');
+    }
     /**
      * Be sure to declare properties for any property fetch you initialized.
      * The creation of dynamic property is deprecated in PHP 8.2.
@@ -58,6 +66,16 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         $this->setLanguage();
-        // E.g.: $this->session = \Config\Services::session();
+        $constants = [
+            'USER_ID' => 'user_id',
+            'IS_LOGIN' => 'isLoggedIn',
+            'USERNAME' => 'username',
+            'USER_TYPE' => 'user_type',
+            'PERMISSIONS' => 'permissions'
+        ];
+
+        foreach ($constants as $constantName => $sessionKey) {
+            $this->set_session_constant($constantName, $sessionKey);
+        }
     }
 }

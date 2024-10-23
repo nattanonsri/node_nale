@@ -23,7 +23,7 @@
     function btnEditCategory(id) {
 
         let form_data = $('#frmEditCat').serialize();
-        console.log(form_data);
+
         $.ajax({
             url: `${base_url}backend/editCategory/${id}`,
             type: 'POST',
@@ -36,7 +36,7 @@
                 if (data.status == 200) {
                     swal.fire({
                         icon: 'success',
-                        title: 'แจ้งเตือน!',
+                        title: '<?= lang('backend.notification') ?>',
                         text: data.message,
                     }).then(function () {
                         location.reload();
@@ -44,7 +44,7 @@
                 } else {
                     Swal.fire({
                         icon: 'warning',
-                        title: 'แจ้งเตือน!',
+                        title: '<?= lang('backend.notification') ?>',
                         text: data.message,
 
                     });
