@@ -24,6 +24,8 @@
     'assets/dataTable/css/datatables.min.css',
     'assets/bootstrap5/css/bootstrap.min.css',
     'assets/date-picker/css/daterangepicker.css',
+    'assets/swiper/css/swiper-bundle.min.css',
+    'assets/splide/css/splide.min.css',
 
   ];
   $minifiedCssFile = 'assets/css/minified_backend.css';
@@ -39,6 +41,8 @@
     // 'assets/date-picker/js/jquery.min.js',
     'assets/date-picker/js/moment.min.js',
     'assets/date-picker/js/daterangepicker.min.js',
+    'assets/swiper/js/swiper-bundle.min.js',
+    'assets/splide/js/splide.min.js',
 
   ];
   $outputJsFile = 'assets/js/minified_backend.min.js';
@@ -74,6 +78,11 @@
 <style>
   * {
     font-family: 'Kanit', sans-serif;
+    font-size: 12px;
+  }
+
+  :root {
+    /* --swiper-theme-color: #fcb045; */
   }
 
   body {
@@ -86,6 +95,32 @@
 
   .fw-500 {
     font-weight: 500;
+  }
+
+  .btn-green-gradient {
+    color: #ffffff;
+    border: 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    background: linear-gradient(90deg, rgba(4, 131, 33, 1) 0%, rgba(45, 208, 80, 1) 100%);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.4s ease-in-out, filter 0.3s ease-in-out;
+  }
+
+  .btn-green-gradient:hover {
+    color: #ffffff;
+    background: linear-gradient(90deg, rgba(45, 208, 80, 1) 0%, rgba(4, 131, 33, 1) 100%);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    /* transform: translateY(-3px); */
+    filter: brightness(1.15);
+  }
+
+  .btn.active {
+    color: #ffffff;
+    background: linear-gradient(90deg, rgba(45, 208, 80, 1) 0%, rgba(4, 131, 33, 1) 100%);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    filter: brightness(1.15);
   }
 </style>
 

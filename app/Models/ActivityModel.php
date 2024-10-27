@@ -38,4 +38,13 @@ class ActivityModel extends Model
     protected $afterFind = [];
     protected $beforeDelete = [];
     protected $afterDelete = [];
+
+
+    function getActivityWhere($id) {
+        if($id != 0 ) {
+            return $this->where('category_id', $id)->findAll();
+        }else{
+            return $this->findAll();
+        }
+    }
 }

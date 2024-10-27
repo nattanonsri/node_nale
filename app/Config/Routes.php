@@ -15,7 +15,11 @@ $routes->set404Override();
 
 $baseSubURL = env('app.baseDIR');
 $backendPrefix = $baseSubURL . '/backend';
+
+
 $routes->get($baseSubURL . '/', 'HomeController::index');
+$routes->post($baseSubURL. '/content_activity' , 'HomeController::load_content_activity');
+
 
 $routes->match(['get', 'post'], $backendPrefix . '/login', 'BackendController::login');
 $routes->get($backendPrefix . '/logout', 'BackendController::logout');
@@ -24,7 +28,7 @@ $routes->get($backendPrefix . '/logout', 'BackendController::logout');
 $routes->group($backendPrefix, ['filter' => 'isAdmin'], function ($routes) {
     // GET routes
     $routes->get('', 'BackendController::index');
-   
+
     // POST routes for content loading
     $routes->post('contentDashboard', 'BackendController::load_content_dashboard');
     $routes->post('contentUser', 'BackendController::load_content_user');
