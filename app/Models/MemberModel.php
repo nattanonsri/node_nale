@@ -64,4 +64,22 @@ class MemberModel extends Model
         ];
 
     }
+
+
+    public function checkDuplicate($data)
+    {
+
+        $query = $this->where('first_name', $data['fname'])
+            ->where('last_name', $data['lname'])
+            ->where('username', $data['username']);
+
+        $result = $query->get();
+
+        if ($result->getNumRows() > 0) {
+            return $result->getNumRows();
+        } else {
+
+            return $result->getRowArray();
+        }
+    }
 }

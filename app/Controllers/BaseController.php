@@ -70,8 +70,9 @@ abstract class BaseController extends Controller
             'USER_ID' => 'user_id',
             'IS_LOGIN' => 'isLoggedIn',
             'USERNAME' => 'username',
-            'USER_TYPE' => 'user_type',
-            'PERMISSIONS' => 'permissions'
+            'FULLNAME' => 'fullname',
+            // 'USER_TYPE' => 'user_type',
+            // 'PERMISSIONS' => 'permissions'
         ];
 
         foreach ($constants as $constantName => $sessionKey) {

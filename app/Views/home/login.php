@@ -6,8 +6,8 @@
 <section class="d-flex align-items-center py-4 vh-100">
     <main class="form-signin w-100 m-auto">
         <form class="text-center" id="frmLogin">
-            <div class="fs-2" style="font-weight: 500;">NODE NALE</div>
-            <h1 class="fs-3 mb-3"><?= lang('backend.login') ?></h1>
+            <div class="fs-2" style="font-weight: 500;"></div>
+            <h1 class="fs-2 mb-3"><?= lang('backend.login') ?></h1>
 
             <div class="form-floating mt-3">
                 <input type="text" class="form-control" id="username" name="username" placeholder="username"
@@ -19,8 +19,8 @@
                 <label for="password"><?= lang('backend.password') ?></label>
             </div>
             <button class="btn btn-primary w-100 py-2 mt-3" type="submit"><?= lang('backend.login') ?></button>
-            <!-- <p class="border-top pt-2 mt-5 mb-3"><a class="text-decoration-none"
-                    href="<?= base_url() . 'backend/login' ?>">สำหรับผู้ดูแลระบบ</a></p> -->
+            <p class="border-top pt-2 mt-5 mb-3"><a class="text-decoration-none fs-5"
+                    href="<?= base_url('register') ?>">สมัครสมาชิก</a></p>
         </form>
     </main>
 </section>
@@ -53,9 +53,8 @@
             e.preventDefault();
 
             var formData = $(this).serialize();
-            // console.log(formData);
             $.ajax({
-                url: `${base_url}/backend/login`,
+                url: `${base_url}loginAuth`,
                 type: 'POST',
                 data: formData,
                 headers: {
@@ -64,12 +63,11 @@
                 dataType: 'json',
                 success: function (data) {
                     if (data.status == 200) {
-
-                        window.location.href = `${base_url}backend`;
+                        window.location.href = `${base_url}`;
                     } else {
                         Swal.fire({
                             icon: 'warning',
-                            title: '<?= lang('backend.notification') ?>',
+                            title: '<?= lang('home.notification') ?>',
                             text: data.message
                         });
                     }
@@ -77,7 +75,7 @@
                 error: function (xhr, status, error) {
                     Swal.fire({
                         icon: 'error',
-                        title: '<?= lang('backend.notification') ?>',
+                        title: '<?= lang('home.notification') ?>',
                         text: xhr.responseText
                     });
                 }

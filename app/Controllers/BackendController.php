@@ -376,9 +376,9 @@ class BackendController extends BaseController
 
                 add_log($admin['id'], 'login', 'backend/login', $sessionData);
                 // return redirect()->to( base_url('backend'));
-                return $this->response->setJSON(['status' => 200, 'message' => 'ล็อกอินสำเร็จ', 'url_redirect' => base_url('backend')]);
+                return $this->response->setJSON(['status' => 200, 'message' => 'ล็อกอินสำเร็จ']);
             } else {
-                return $this->response->setJSON(['status' => 400, 'message' => 'รหัสผ่านไม่ถูกต้อง', 'url_redirect' => '']);
+                return $this->response->setJSON(['status' => 400, 'message' => 'รหัสผ่านไม่ถูกต้อง']);
             }
 
 

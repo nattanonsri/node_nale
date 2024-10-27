@@ -19,6 +19,12 @@ $backendPrefix = $baseSubURL . '/backend';
 
 $routes->get($baseSubURL . '/', 'HomeController::index');
 $routes->post($baseSubURL. '/content_activity' , 'HomeController::load_content_activity');
+$routes->get($baseSubURL. '/login' , 'HomeController::login');
+$routes->get($baseSubURL. '/logout' , 'HomeController::logout');
+$routes->get($baseSubURL. '/register' , 'HomeController::register');
+$routes->post($baseSubURL. '/loginAuth' , 'HomeController::login_auth');
+$routes->post($baseSubURL. '/addRegister' , 'HomeController::add_register');
+$routes->post($baseSubURL. '/check_duplicate' , 'HomeController::check_duplicate');
 
 
 $routes->match(['get', 'post'], $backendPrefix . '/login', 'BackendController::login');
