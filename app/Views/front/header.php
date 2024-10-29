@@ -122,7 +122,15 @@
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
     filter: brightness(1.15);
   }
+
+  .text-green {
+    color: rgba(4, 131, 33, 1);
+  }
+
+  .bg-green-white {
+    background: #b9ffc945;
+  }
 </style>
 
 
-<body>
+<body style="<?= !empty($background) ? $background : '' ?>">

@@ -14,24 +14,43 @@
                 <table class="table table-striped" id="my_book" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="text-center" width="10%">ลำดับ</th>
-                            <th class="text-center">ชื่อ-นามสกุล</th>
-                            <th class="text-center">Username</th>
-                            <th width="10%"></th>
+                            <th class="text-center fs-5" width="10%">ลำดับ</th>
+                            <th class="text-center fs-5">ชื่อ-นามสกุล</th>
+                            <th class="text-center fs-5">ชื่อกิจกรรม</th>
+                            <th class="text-center fs-5">ชื่อประเภท</th>
+                            <th class="text-center fs-5">ราคา</th>
+                            <th class="text-center fs-5">สถานะ</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $n = 1;
-                        // foreach ($books as $book) {
-                        echo '<tr>
-                                    <td>' . $n . '</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>';
-                        $n++;
-                        // }
+                        foreach ($books as $book) {
+                            echo '<tr>';
+                            echo '<td class="text-center fs-5">' . $n . '</td>';
+                            echo '<td class="text-center fs-5">' . $book['full_name'] . '</td>';
+                            echo '<td class="text-center fs-5">' . $book['name_activity'] . '</td>';
+                            echo '<td class="text-center fs-5">' . $book['name_category'] . '</td>';
+                            echo '<td class="text-center fs-5">' . number_format($book['price']) . '</td>';
+                            echo '<td class="text-center fs-5">';
+                            if ($book['status'] == 'padding') {
+                                echo '<button type="button" onclick="approveBooking(\'' . $book['uuid'] . '\')" class="btn btn-success btn-sm">';
+                                echo '<i class="fa-solid fa-check"></i>';
+                                echo '</button>';
+                                echo '<button type="button" onclick="rejectBooking(\'' . $book['uuid'] . '\')" class="btn btn-danger btn-sm">';
+                                echo '<i class="fa-solid fa-xmark"></i>';
+                                echo '</button>';
+                            } else {
+                                if ($book['status'] == 'approve') {
+                                    echo '<span class="fs-5">' . lang('backend.approve') . '</span>';
+                                } else if ($book['status'] == 'reject') {
+                                    echo '<span class="fs-5">' . lang('backend.reject') . '</span>';
+                                }
+                            }
+                            echo '</td>';
+                            echo '</tr>';
+                            $n++;
+                        }
                         ?>
                     </tbody>
                 </table>
@@ -67,4 +86,68 @@
     var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
+
+    function approveBooking(uuid) {
+
+        $.ajax({
+            url: `${asset_url}backend/approveBooking/${uuid}`,
+            type: 'POST',
+            data: {
+                uuid: uuid,
+                '<?= csrf_token() ?>': '<?= csrf_hash() ?>'
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '<?= lang('backend.notification') ?>',
+                        text: data.message,
+                    }).then(function () {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '<?= lang('backend.notification') ?>',
+                        text: data.message,
+
+                    });
+                }
+            }
+        })
+    }
+    function rejectBooking(uuid) {
+
+        $.ajax({
+            url: `${asset_url}backend/rejectBooking/${uuid}`,
+            type: 'POST',
+            data: {
+                uuid: uuid,
+            },
+            headers: {
+                '<?= csrf_header() ?>': '<?= csrf_hash() ?>'
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 200) {
+                    swal.fire({
+                        icon: 'success',
+                        title: '<?= lang('backend.notification') ?>',
+                        text: data.message,
+                    }).then(function () {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '<?= lang('backend.notification') ?>',
+                        text: data.message,
+
+                    });
+                }
+            }
+        });
+
+    }
 </script>

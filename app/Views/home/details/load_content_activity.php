@@ -11,7 +11,9 @@
 
                 ?>
                 <div class="swiper-slide">
-                    <div class="card bg-white rounded-4 p-3" role="button" onclick="" style="cursor: pointer">
+                    <div class="card bg-white rounded-4 p-3" role="button"
+                        onclick="window.location.href='<?= asset_url('activityDetails/' . $activity['uuid']) ?>'"
+                        style="cursor: pointer">
                         <div class="image-activity" style="background-image: url(<?= asset_url($activity['image']) ?>);"></div>
                         <div class="mt-3">
                             เวลาเริ่ม <?= $start_date->format('H:i d/m/Y') . ' - ' . $end_date->format('H:i d/m/Y') ?>
@@ -87,5 +89,6 @@
             },
         });
     })
+
 
 </script>
