@@ -14,33 +14,41 @@
                 <table class="table table-striped" id="my_book" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="text-center" width="10%">ลำดับ</th>
-                            <th class="text-center">ชื่อ-นามสกุล</th>
-                            <th class="text-center">ชื่อกิจกรรม</th>
-                            <th class="text-center">ชื่อประเภท</th>
-                            <th class="text-center">ราคา</th>
-                            <th width="10%"></th>
+                            <th class="text-center fs-5" width="10%">ลำดับ</th>
+                            <th class="text-center fs-5">ชื่อ-นามสกุล</th>
+                            <th class="text-center fs-5">ชื่อกิจกรรม</th>
+                            <th class="text-center fs-5">ชื่อประเภท</th>
+                            <th class="text-center fs-5">ราคา</th>
+                            <th class="text-center fs-5">สถานะ</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $n = 1;
                         foreach ($books as $book) {
-                            echo '<tr>
-                                    <td class="text-center">' . $n . '</td>
-                                    <td class="text-center">' . $book['full_name'] . '</td>
-                                    <td class="text-center">' . $book['name_activity'] . '</td>
-                                    <td class="text-center">' . $book['name_category'] . '</td>
-                                    <td class="text-center">' . number_format($book['price']) . '</td>
-                                    <td class="text-center">
-                                        <button type="button" onclick="successBooking(\'' . $book['uuid'] . '\')" class="btn btn-success btn-sm">
-                                            <i class="fa-solid fa-check"></i>
-                                        </button>
-                                         
-                                        <button type="button" onclick="deleteBooking(\'' . $book['uuid'] . '\')" class="btn btn-danger btn-sm">
-                                            <i class="fa-solid fa-xmark"></i>
-                                        </button></td>
-                                </tr>';
+                            echo '<tr>';
+                            echo '<td class="text-center fs-5">' . $n . '</td>';
+                            echo '<td class="text-center fs-5">' . $book['full_name'] . '</td>';
+                            echo '<td class="text-center fs-5">' . $book['name_activity'] . '</td>';
+                            echo '<td class="text-center fs-5">' . $book['name_category'] . '</td>';
+                            echo '<td class="text-center fs-5">' . number_format($book['price']) . '</td>';
+                            echo '<td class="text-center fs-5">';
+                            if ($book['status'] == 'padding') {
+                                echo '<button type="button" onclick="approveBooking(\'' . $book['uuid'] . '\')" class="btn btn-success btn-sm">';
+                                echo '<i class="fa-solid fa-check"></i>';
+                                echo '</button>';
+                                echo '<button type="button" onclick="rejectBooking(\'' . $book['uuid'] . '\')" class="btn btn-danger btn-sm">';
+                                echo '<i class="fa-solid fa-xmark"></i>';
+                                echo '</button>';
+                            } else {
+                                if ($book['status'] == 'approve') {
+                                    echo '<span class="fs-5">' . lang('backend.approve') . '</span>';
+                                } else if ($book['status'] == 'reject') {
+                                    echo '<span class="fs-5">' . lang('backend.reject') . '</span>';
+                                }
+                            }
+                            echo '</td>';
+                            echo '</tr>';
                             $n++;
                         }
                         ?>
