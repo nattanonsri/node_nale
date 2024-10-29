@@ -1,82 +1,8 @@
-<?= $this->extend('front/template') ?>
+<?= $this->extend('front/template_home') ?>
 
 <?= $this->section('content') ?>
 
 <!-- <section class="bg-info-subtle" style="min-height: 100vh;" id="home"> -->
-<section
-    style="min-height: 100vh; background-image: url(<?= asset_url(LIBRARY_PATH . '/image/background_nales.jpg') ?>);	background-position: center; background-repeat: no-repeat; background-size: cover;"
-    id="home">
-
-    <div class="container">
-        <div class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <!-- ชื่อแบรนด์ -->
-                <div class="navbar-brand col-2 fs-4 fw-500">
-                    NODE NALE
-                </div>
-
-                <!-- ปุ่ม Hamburger สำหรับหน้าจอเล็ก -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- เมนู -->
-                <div class="collapse navbar-collapse col-lg-8" id="navbarContent">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item">
-                            <a href="<?= base_url('#home') ?>" class="nav-link fs-5">หน้าแรก</a>
-                        </li>
-                        <li class="nav-item mx-4">
-                            <a href="<?= base_url('#activity') ?>" class="nav-link fs-5">กิจกรรมโหนดนาเล</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('#album') ?>" class="nav-link fs-5">อัลบั้มกิจกรรม</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- ไอคอนผู้ใช้ -->
-                <div class="col-2 text-end d-none d-lg-block">
-                    <?php if (empty(USER_ID)): ?>
-                        <a href="<?= asset_url('login') ?>" class="text-decoration-none fs-5 text-dark">เข้าสู้ระบบ</a>
-                    <?php else: ?>
-                        <a class="nav-link dropdown-toggle" role="button" id="btnDropdown" aria-expanded="false">
-                            <span class="mr-2 d-lg-inline text-gray-600 small"><?= FULLNAME ?></span>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </a>
-                        <div class="dropdown-menu" id="dropdownMenu" aria-labelledby="btnDropdown"
-                            style="max-width: 200px; display: none;">
-                            <!-- <a class="dropdown-item" href="<?= base_url('shopping') ?>">
-                                <i class="fa-solid fa-bag-shopping fs-2 "></i>
-                                <?= lang('backend.shopping') ?>
-                            </a> -->
-                            <a class="dropdown-item" href="<?= base_url('logout') ?>">
-                                <i class="fa-solid fa-arrow-right-from-bracket fa-sm mr-1 text-gray-400"></i>
-                                <?= lang('backend.logout') ?>
-                            </a>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="d-flex justify-content-center align-items-center" style="min-height: calc(100vh - 80px);">
-            <div class="text-center">
-                <span class="fw-bold"
-                    style="font-size: 8rem; color: #f8f9fa; text-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5); letter-spacing: 0.1em;">
-                    NODE NALE
-                </span>
-                <br>
-                <span style="font-size: 4rem; color: #f8f9fa; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);">
-                    ชุมชนโหนดนาเล
-                </span>
-            </div>
-        </div>
-    </div>
-
-</section>
 
 <section class="bg-white" style="min-height: 50vh; padding: 2rem 0;">
 
@@ -220,11 +146,6 @@
         border-radius: 4px;
     }
 
-    .dropdown-menu {
-        left: 57px !important;
-        top: 26px !important;
-    }
-
     @media screen and (max-width: 992px) {
         .dropdown-menu {
             left: 65px !important;
@@ -236,17 +157,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#btnDropdown').on('click', function (e) {
-            e.preventDefault();
-            $('#dropdownMenu').toggle(); // สลับการแสดงผล dropdown
-        });
-
-        // ปิด dropdown เมื่อคลิกนอก dropdown
-        $(document).on('click', function (e) {
-            if (!$(e.target).closest('#btnDropdown, #dropdownMenu').length) {
-                $('#dropdownMenu').hide(); // ซ่อน dropdown เมื่อคลิกนอก
-            }
-        });
+    
         let dataid = '0';
 
         $('.btn-green-gradient').on('click', function () {

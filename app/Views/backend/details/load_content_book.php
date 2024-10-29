@@ -16,22 +16,33 @@
                         <tr>
                             <th class="text-center" width="10%">ลำดับ</th>
                             <th class="text-center">ชื่อ-นามสกุล</th>
-                            <th class="text-center">Username</th>
+                            <th class="text-center">ชื่อกิจกรรม</th>
+                            <th class="text-center">ชื่อประเภท</th>
+                            <th class="text-center">ราคา</th>
                             <th width="10%"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                         $n = 1;
-                        // foreach ($books as $book) {
-                        echo '<tr>
-                                    <td>' . $n . '</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                        foreach ($books as $book) {
+                            echo '<tr>
+                                    <td class="text-center">' . $n . '</td>
+                                    <td class="text-center">' . $book['full_name'] . '</td>
+                                    <td class="text-center">' . $book['name_activity'] . '</td>
+                                    <td class="text-center">' . $book['name_category'] . '</td>
+                                    <td class="text-center">' . number_format($book['price']) . '</td>
+                                    <td class="text-center">
+                                        <button type="button" onclick="successBooking(\'' . $book['uuid'] . '\')" class="btn btn-success btn-sm">
+                                            <i class="fa-solid fa-check"></i>
+                                        </button>
+                                         
+                                        <button type="button" onclick="deleteBooking(\'' . $book['uuid'] . '\')" class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button></td>
                                 </tr>';
-                        $n++;
-                        // }
+                            $n++;
+                        }
                         ?>
                     </tbody>
                 </table>
@@ -67,4 +78,68 @@
     var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
+
+    function approveBooking(uuid) {
+
+        $.ajax({
+            url: `${asset_url}backend/approveBooking/${uuid}`,
+            type: 'POST',
+            data: {
+                uuid: uuid,
+                '<?= csrf_token() ?>': '<?= csrf_hash() ?>'
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '<?= lang('backend.notification') ?>',
+                        text: data.message,
+                    }).then(function () {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '<?= lang('backend.notification') ?>',
+                        text: data.message,
+
+                    });
+                }
+            }
+        })
+    }
+    function rejectBooking(uuid) {
+
+        $.ajax({
+            url: `${asset_url}backend/rejectBooking/${uuid}`,
+            type: 'POST',
+            data: {
+                uuid: uuid,
+            },
+            headers: {
+                '<?= csrf_header() ?>': '<?= csrf_hash() ?>'
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 200) {
+                    swal.fire({
+                        icon: 'success',
+                        title: '<?= lang('backend.notification') ?>',
+                        text: data.message,
+                    }).then(function () {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '<?= lang('backend.notification') ?>',
+                        text: data.message,
+
+                    });
+                }
+            }
+        });
+
+    }
 </script>

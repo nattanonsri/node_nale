@@ -28,8 +28,8 @@
                         <?php
                         $n = 1;
                         foreach ($members as $member) {
-                            $timestamp = strtotime($user['birthdate']);
-                            $user['birthdate'] = date('d-m-', $timestamp) . (date('Y', $timestamp) + 543);
+                            $timestamp = strtotime($member['birthdate']);
+                            $member['birthdate'] = date('d-m-', $timestamp) . (date('Y', $timestamp) + 543);
                             echo '<tr>
                                     <td>' . $n . '</td>
                                     <td>' . $member['gender'] . $member['first_name'] . ' ' . $member['last_name'] . '</td>

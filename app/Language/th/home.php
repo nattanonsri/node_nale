@@ -54,10 +54,11 @@ return [
     'seve-admin-success'                        => 'บันทึกข้อมูลสำเร็จ', 
     'seve-admin-error'                          => 'ไม่สามารถบันทึกข้อมูลได้',
     'add-admin'                                 => 'เพิ่มผู้ดูแลระบบ',
-    'notification' => 'แจ้งเตือน!',
-    'register-from' => 'ฟอร์มลงทะเบียน',
-    'email' => 'อีเมล',
-
+    'notification'                              => 'แจ้งเตือน!',
+    'register-from'                             => 'ฟอร์มลงทะเบียน',
+    'email'                                     => 'อีเมล',
+    'shopping'                                  => 'ตะกร้า',
+    'booking-activity'                          => 'ตะกร้าจองกิจกรรม',
 
 
 

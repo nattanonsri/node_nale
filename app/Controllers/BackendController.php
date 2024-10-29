@@ -154,10 +154,10 @@ class BackendController extends BaseController
                 'image' => [
                     'uploaded[image]',
                     'max_size[image,50000]',
-                    'mime_in[image,image/png,image/jpg,image/gif,image/PNG,image/JPG,image/GIF]',
-                    'ext_in[image,png,jpg,gif,PNG,JPG,GIF]',
-                    'max_dims[image,1720,1280]',
-                ],
+                    'mime_in[image,image/png,image/jpg,image/jpeg,image/gif,image/PNG,image/JPG,image/GIF,image/JPEG]',
+                    'ext_in[image,png,jpg,gif,jpeg,PNG,JPG,GIF,JPEG]',
+                    // 'max_dims[image,1720,1280]',
+                ]
             ]);
 
             $name = $this->request->getPost('name');
@@ -229,9 +229,9 @@ class BackendController extends BaseController
                 'image' => [
                     'uploaded[image]',
                     'max_size[image,50000]',
-                    'mime_in[image,image/png,image/jpg,image/gif,image/PNG,image/JPG,image/GIF]',
-                    'ext_in[image,png,jpg,gif,PNG,JPG,GIF]',
-                    'max_dims[image,1720,1280]',
+                    'mime_in[image,image/png,image/jpg,image/jpeg,image/gif,image/PNG,image/JPG,image/GIF,image/JPEG]',
+                    'ext_in[image,png,jpg,gif,jpeg,PNG,JPG,GIF,JPEG]',
+                    // 'max_dims[image,1720,1280]',
                 ]
             ];
 
@@ -308,8 +308,8 @@ class BackendController extends BaseController
             'file' => [
                 'uploaded[file]',
                 'max_size[file,50000]',
-                'mime_in[file,file/png,file/jpg,file/gif,file/PNG,file/JPG,file/GIF]',
-                'ext_in[file,png,jpg,gif,PNG,JPG,GIF]',
+                'mime_in[file,file/png,file/jpg,image/jpeg,file/gif,file/PNG,file/JPG,file/GIF,image/JPEG]',
+                'ext_in[file,png,jpg,gif,jpeg,PNG,JPG,GIF,JPEG]',
                 'max_dims[file,1720,1280]',
             ],
         ]);
@@ -350,6 +350,44 @@ class BackendController extends BaseController
                 $response = ['status' => '200', 'message' => 'ลบข้อมูลสำเร็จ'];
             } else {
                 $response = ['status' => '400', 'message' => 'ลบข้อมูลไม่สำเร็จ'];
+            }
+            return $this->response->setJSON($response);
+        }
+    }
+
+    public function approve_booking($uuid = '')
+    {
+
+        if ($this->request->getPost()) {
+
+            $uuid = $this->request->getPost('uuid');
+            $booking = $this->activityBookModel->where('uuid', $uuid)->first();
+
+            $data_book = ['status' => 'approve'];
+            $update_book = $this->activityBookModel->update($booking['id'], $data_book);
+
+            if ($update_book) {
+                $response = ['status' => '200', 'message' => 'อนุมัติอนุมัติจองกิจกรรม'];
+            } else {
+                $response = ['status' => '400', 'message' => 'มีข้อผิดพลาด'];
+            }
+            return $this->response->setJSON($response);
+        }
+    }
+    public function reject_booking($uuid = '')
+    {
+        if ($this->request->getPost()) {
+
+            $uuid = $this->request->getPost('uuid');
+            $booking = $this->activityBookModel->where('uuid', $uuid)->first();
+
+            $data_book = ['status' => 'reject'];
+            $update_book = $this->activityBookModel->update($booking['id'], $data_book);
+
+            if ($update_book) {
+                $response = ['status' => '200', 'message' => 'ไม่อนุมัติจองกิจกรรม'];
+            } else {
+                $response = ['status' => '400', 'message' => 'มีข้อผิดพลาด'];
             }
             return $this->response->setJSON($response);
         }

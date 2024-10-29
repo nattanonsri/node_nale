@@ -59,7 +59,7 @@ class ActivityBookModel extends Model
                 LEFT JOIN tb_activity as act ON act.id = book.activity_id
                 LEFT JOIN tb_category as cat ON cat.id = act.category_id";
 
-        return $this->db->query($sql)->getResult();
+        return $this->db->query($sql)->getResultArray();
 
     }
 }

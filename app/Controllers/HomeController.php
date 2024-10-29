@@ -41,6 +41,48 @@ class HomeController extends BaseController
         return view('home/details/load_content_activity', $data);
     }
 
+    public function activity_book()
+    {
+        $data['background'] = 'background-color: #F0F0F0';
+        $data['bookings'] = $this->activityBookModel->findAll();
+        return view('home/shopping/booking_activity', $data);
+    }
+
+    public function activity_detail($uuid)
+    {
+
+        $data['activity'] = $this->activityModel->where('uuid', $uuid)->first();
+        return view('home/details/activity_details', $data);
+
+    }
+
+    public function activity_confirm_booking($user_id = '', $activity_id = '')
+    {
+        if ($this->request->getPost()) {
+
+            $user_id = $this->request->getPost('user_id');
+            $activity_id = $this->request->getPost('activity_id');
+
+
+            $add_book = [
+                'uuid' => Uuid::uuid4()->toString(),
+                'activity_id' => $activity_id,
+                'user_id' => $user_id,
+                'status' => 'padding'
+            ];
+
+            $inser_book = $this->activityBookModel->insert($add_book);
+
+            if ($inser_book) {
+                $data = ['status' => 200, 'message' => 'รออนุมัติจองกิจกรรม'];
+            } else {
+                $data = ['status' => 400, 'message' => 'จองกิจกรรมไม่สำเร็จ'];
+            }
+
+            return $this->response->setJSON($data);
+
+        }
+    }
     public function login()
     {
         return view('home/login');

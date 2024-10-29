@@ -18,13 +18,16 @@ $backendPrefix = $baseSubURL . '/backend';
 
 
 $routes->get($baseSubURL . '/', 'HomeController::index');
-$routes->post($baseSubURL. '/content_activity' , 'HomeController::load_content_activity');
-$routes->get($baseSubURL. '/login' , 'HomeController::login');
-$routes->get($baseSubURL. '/logout' , 'HomeController::logout');
-$routes->get($baseSubURL. '/register' , 'HomeController::register');
-$routes->post($baseSubURL. '/loginAuth' , 'HomeController::login_auth');
-$routes->post($baseSubURL. '/addRegister' , 'HomeController::add_register');
-$routes->post($baseSubURL. '/check_duplicate' , 'HomeController::check_duplicate');
+$routes->post($baseSubURL . '/content_activity', 'HomeController::load_content_activity');
+$routes->get($baseSubURL . '/login', 'HomeController::login');
+$routes->get($baseSubURL . '/logout', 'HomeController::logout');
+$routes->get($baseSubURL . '/register', 'HomeController::register');
+$routes->post($baseSubURL . '/loginAuth', 'HomeController::login_auth');
+$routes->post($baseSubURL . '/addRegister', 'HomeController::add_register');
+$routes->post($baseSubURL . '/check_duplicate', 'HomeController::check_duplicate');
+$routes->get($baseSubURL . '/bookingActivity', 'HomeController::activity_book');
+$routes->get($baseSubURL . '/activityDetails/(:any)', 'HomeController::activity_detail/$1');
+$routes->post($baseSubURL . '/confirmBooking/(:any)/(:any)', 'HomeController::activity_confirm_booking/$1/$2');
 
 
 $routes->match(['get', 'post'], $backendPrefix . '/login', 'BackendController::login');
@@ -60,5 +63,6 @@ $routes->group($backendPrefix, ['filter' => 'isAdmin'], function ($routes) {
     $routes->post('deleteAlbumActivcity/(:any)', 'BackendController::delete_album_activcity/$1');
 
     //Book Activity management
-    // $routes->post('addBookActivcity', 'BackendController::add_book_activcity');
+    $routes->post('approveBooking/(:any)', 'BackendController::approve_booking/$1');
+    $routes->post('rejectBooking/(:any)', 'BackendController::reject_booking/$1');
 });
