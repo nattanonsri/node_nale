@@ -40,27 +40,31 @@ class ActivityBookModel extends Model
     protected $afterDelete = [];
 
 
-    function getBookActivity()
+    function getBookActivity($user_id = '')
     {
-
         $sql = "SELECT 
-                book.id, 
-                book.uuid,
-                CONCAT(user.first_name, ' ', user.last_name) as full_name,
-                user.username, 
-                act.name as name_activity, 
-                cat.name_th as name_category, 
-                act.image, 
-                act.price,
-                book.status,
-                act.start_datetime, 
-                act.end_datetime
-                FROM tb_activity_book as book
-                LEFT JOIN tb_users as user ON user.id = book.user_id
-                LEFT JOIN tb_activity as act ON act.id = book.activity_id
-                LEFT JOIN tb_category as cat ON cat.id = act.category_id";
+            book.id, 
+            book.uuid,
+            CONCAT(user.first_name, ' ', user.last_name) as full_name,
+            user.username, 
+            act.name as name_activity, 
+            cat.name_th as name_category, 
+            act.image, 
+            act.price,
+            book.status,
+            act.start_datetime, 
+            act.end_datetime
+        FROM tb_activity_book as book
+        LEFT JOIN tb_users as user ON user.id = book.user_id
+        LEFT JOIN tb_activity as act ON act.id = book.activity_id
+        LEFT JOIN tb_category as cat ON cat.id = act.category_id";
+
+        if (!empty($user_id)) {
+            $sql .= " WHERE book.user_id = ?";
+            return $this->db->query($sql, [$user_id])->getResultArray();
+        }
 
         return $this->db->query($sql)->getResultArray();
-
     }
+
 }

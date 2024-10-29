@@ -126,6 +126,10 @@
   .text-green {
     color: rgba(4, 131, 33, 1);
   }
+
+  .bg-green-white {
+    background: #b9ffc945;
+  }
 </style>
 
 

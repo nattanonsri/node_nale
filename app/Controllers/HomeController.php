@@ -44,13 +44,12 @@ class HomeController extends BaseController
     public function activity_book()
     {
         $data['background'] = 'background-color: #F0F0F0';
-        $data['bookings'] = $this->activityBookModel->findAll();
+        $data['bookings'] = $this->activityBookModel->getBookActivity(USER_ID);
         return view('home/shopping/booking_activity', $data);
     }
 
     public function activity_detail($uuid)
     {
-
         $data['activity'] = $this->activityModel->where('uuid', $uuid)->first();
         return view('home/details/activity_details', $data);
 

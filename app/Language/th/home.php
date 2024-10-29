@@ -59,7 +59,9 @@ return [
     'email'                                     => 'อีเมล',
     'shopping'                                  => 'ตะกร้า',
     'booking-activity'                          => 'ตะกร้าจองกิจกรรม',
-
+    'padding'                                   => 'รออนุมัติ',
+    'approve'                                   => 'อนุมัติ',
+    'reject'                                    => 'ไม่อนุมัติ',
 
 
 ];
