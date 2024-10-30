@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ActivityAlbumModel;
 use App\Models\ActivityBookModel;
+use App\Models\ActivityItemModel;
 use App\Models\ActivityModel;
 use App\Models\CategoryModel;
 use App\Models\MemberModel;
@@ -12,7 +13,7 @@ use App\Libraries\Auth;
 
 class HomeController extends BaseController
 {
-    protected $categoryModel, $activityModel, $activityBookModel, $activityAlbumModel, $memberModel;
+    protected $categoryModel, $activityModel, $activityBookModel, $activityAlbumModel, $memberModel, $activityItemModel;
     public function __construct()
     {
         $this->Auth = new Auth;
@@ -20,6 +21,7 @@ class HomeController extends BaseController
         $this->activityModel = new ActivityModel();
         $this->activityBookModel = new ActivityBookModel();
         $this->activityAlbumModel = new ActivityAlbumModel();
+        $this->activityItemModel = new ActivityItemModel();
         $this->memberModel = new MemberModel();
 
 

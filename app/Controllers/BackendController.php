@@ -165,12 +165,18 @@ class BackendController extends BaseController
             $address = $this->request->getPost('address');
             $price = $this->request->getPost('price');
             $details = $this->request->getPost('details');
+            $type_total = $this->request->getPost('type_total');
+            $total_number = $this->request->getPost('total_number');
             $start_date = $this->request->getPost('start_date');
             $end_date = $this->request->getPost('end_date');
 
             $file = $this->request->getFile('image');
-            $upload = new UploadLibrary($file);
-            $path_file = $upload->upload('uploads/activity');
+
+            if(!empty($file)){
+                $upload = new UploadLibrary($file);
+                $path_file = $upload->upload('uploads/activity');
+            }
+
 
             $data_activity = [
                 'uuid' => Uuid::uuid4()->toString(),
@@ -179,7 +185,9 @@ class BackendController extends BaseController
                 'address' => $address,
                 'price' => $price,
                 'details' => $details,
-                'image' => $path_file['path_file_name'],
+                'image' => !empty($path_file['path_file_name']) ? $path_file['path_file_name'] : '',
+                'type_total' => $type_total,
+                'total_number' => !empty($total_number) ? $total_number : '',
                 'start_datetime' => $start_date,
                 'end_datetime' => $end_date,
                 'status' => '1'
@@ -256,6 +264,8 @@ class BackendController extends BaseController
             }
         }
 
+        $total_number = $this->request->getPost('total_number');
+        
         $edit_activity = [
             'name' => $this->request->getPost('name'),
             'category_id' => $this->request->getPost('category_id'),
@@ -264,6 +274,8 @@ class BackendController extends BaseController
             'details' => $this->request->getPost('details'),
             'start_datetime' => $this->request->getPost('start_date'),
             'end_datetime' => $this->request->getPost('end_date'),
+            'type_total' => $this->request->getPost('type_total'),
+            'total_number' => !empty($total_number) ? $total_number : '',
         ];
 
 
