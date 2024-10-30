@@ -26,12 +26,13 @@
                         <?php
                         $n = 1;
                         foreach ($books as $book) {
+                            $priceText = !empty($act['price']) ? number_format($act['price']) . ' บาท' : '0 บาท';
                             echo '<tr>';
                             echo '<td class="text-center fs-5">' . $n . '</td>';
                             echo '<td class="text-center fs-5">' . $book['full_name'] . '</td>';
                             echo '<td class="text-center fs-5">' . $book['name_activity'] . '</td>';
                             echo '<td class="text-center fs-5">' . $book['name_category'] . '</td>';
-                            echo '<td class="text-center fs-5">' . number_format($book['price']) . '</td>';
+                            echo '<td class="text-center fs-5">' . $priceText . '</td>';
                             echo '<td class="text-center fs-5">';
                             if ($book['status'] == 'padding') {
                                 echo '<button type="button" onclick="approveBooking(\'' . $book['uuid'] . '\')" class="btn btn-success btn-sm">';

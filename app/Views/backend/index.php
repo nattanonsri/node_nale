@@ -119,6 +119,21 @@
                             <label for="price"><?= lang('backend.price') ?></label>
                             <input type="text" class="form-control" id="price" name="price">
                         </div>
+                        <div class="col-12 mt-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="type_total" id="limited" value="limited">
+                                <label class="form-check-label" for="limited"><?= lang('backend.limited') ?></label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="type_total" id="unlimited" value="unlimited" checked>
+                                <label class="form-check-label" for="unlimited"><?= lang('backend.unlimited') ?></label>
+                            </div>
+
+                        </div>
+                        <div class="col-12 mt-3" id="num_total">
+                            <label for="total_number"><?= lang('backend.total_number') ?></label>
+                            <input type="text" class="form-control" id="total_number" name="total_number" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        </div>
                         <div class="col-6 mt-3">
                             <label for="image"><?= lang('backend.image') ?></label>
                             <input type="file" class="form-control" id="image" name="image">
@@ -153,7 +168,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalLabel"><?= lang('backend.activity-from-add') ?></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-          <div id="content_activity"></div>
+            <div id="content_activity"></div>
         </div>
     </div>
 </div>
@@ -209,6 +224,12 @@
         loadContentAlbum();
         loadContentBook();
 
+        $('#limited').on('change, click', function () {
+            $('#num_total').hide();
+        })
+        $('#unlimited').on('change, click', function () {
+            $('#num_total').show();
+        })
 
         $('input[name="datetimes"]').daterangepicker({
             timePicker: true,
@@ -233,6 +254,7 @@
             $('#end_date').val(end.format('YYYY-MM-DD HH:mm:ss'));
         });
     })
+
 
 
     // เพิ่มฟังก์ชันตรวจสอบขนาดรูปภาพ
