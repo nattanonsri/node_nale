@@ -20,13 +20,15 @@
 
                         $end_date = new DateTime($booking['end_datetime'], new DateTimeZone('UTC'));
                         $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
+
+                        $priceText = !empty($booking['price']) ? number_format($booking['price']) . ' บาท' : '0 บาท';
                         ?>
 
                         <div class="d-flex justify-content-between border-bottom border-dark bg-green-white p-4">
                             <div>
                                 <p class="fs-4"><span class="fs-4 text-green fs-500">ชื่อกิจกรรม :</span> <?= $booking['name_activity'] ?></p>
                                 <p class="fs-5"><span class="fs-5 text-green fs-500">ประเภทกิจกรรม :</span> <?= $booking['name_category'] ?></p>
-                                <p class="fs-5"><span class="fs-5 text-green fs-500">ราคา :</span> <?= number_format($booking['price']) ?></p>
+                                <p class="fs-5"><span class="fs-5 text-green fs-500">ราคา :</span> <?= $priceText ?></p>
                                 <p class="fs-5 text-green fs-500">สถานะ :
                                     <?php
                                     if ($booking['status'] == 'approve') {

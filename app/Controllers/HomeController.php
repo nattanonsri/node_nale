@@ -52,6 +52,7 @@ class HomeController extends BaseController
 
     public function activity_detail($uuid)
     {
+        $data['items'] = $this->activityItemModel->countAllResults();
         $data['activity'] = $this->activityModel->where('uuid', $uuid)->first();
         return view('home/details/activity_details', $data);
 
@@ -71,10 +72,17 @@ class HomeController extends BaseController
                 'user_id' => $user_id,
                 'status' => 'padding'
             ];
+            $add_item = [
+                'uuid' => Uuid::uuid4()->toString(),
+                'user_id' => $user_id,
+                'activity_id' => $activity_id,
+                'quantity' => '1'
+            ];
 
-            $inser_book = $this->activityBookModel->insert($add_book);
+            $insert_book = $this->activityBookModel->insert($add_book);
+            $insert_item = $this->activityItemModel->insert($add_item);
 
-            if ($inser_book) {
+            if ($insert_book && $insert_item) {
                 $data = ['status' => 200, 'message' => 'รออนุมัติจองกิจกรรม'];
             } else {
                 $data = ['status' => 400, 'message' => 'จองกิจกรรมไม่สำเร็จ'];

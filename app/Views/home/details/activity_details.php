@@ -9,6 +9,8 @@ $start_date->setTimezone(new DateTimeZone('Asia/Bangkok'));
 $end_date = new DateTime($activity['end_datetime'], new DateTimeZone('UTC'));
 $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
 
+
+$priceText = !empty($activity['price']) ? number_format($activity['price']) . ' บาท' : '0 บาท';
 ?>
 <section style="min-height: 80vh;">
     <div class="container">
@@ -17,7 +19,7 @@ $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
             <div class="col-7">
                 <div class="row">
                     <div class="col-6 fs-2"><?= $activity['name'] ?></div>
-                    <div class="col-6 fs-2 text-end text-danger"><?= number_format($activity['price']) . ' บาท' ?></div>
+                    <div class="col-6 fs-2 text-end text-danger"><?= $priceText ?></div>
 
                     <div class="col-12 text-start fs-5 mt-4"><?= $activity['details'] ?></div>
 
@@ -34,6 +36,14 @@ $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
             <div class="col-5 text-end">
                 <button type="button" onclick="openCheckActivity('<?= USER_ID ?>','<?= $activity['id'] ?>')"
                     class="btn btn-green-gradient fs-5">จองกิจกรรม</button>
+
+                <div class="fs-4 mt-3"><?php
+                if ($activity['type_total'] == 'unlimited') {
+                    echo lang('home.unlimited');
+                } else {
+                    echo $items . '/' . $activity['total_number'];
+                }
+                ?></div>
             </div>
 
             <div class="col-12 text-center mt-5">
@@ -88,7 +98,7 @@ $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
                             title: '<?= lang('home.notification') ?>',
                             text: data.message
                         }).then(function () {
-                            window.location.href= `${asset_url}bookingActivity`
+                            window.location.href = `${asset_url}bookingActivity`
                         });
                     } else {
                         Swal.fire({
