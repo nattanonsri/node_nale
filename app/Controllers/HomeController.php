@@ -58,18 +58,20 @@ class HomeController extends BaseController
 
     }
 
-    public function activity_confirm_booking($user_id = '', $activity_id = '')
+    public function activity_confirm_booking($user_id = '', $activity_id = '', $count = '')
     {
         if ($this->request->getPost()) {
 
             $user_id = $this->request->getPost('user_id');
             $activity_id = $this->request->getPost('activity_id');
+            $count = $this->request->getPost('count');
 
 
             $add_book = [
                 'uuid' => Uuid::uuid4()->toString(),
                 'activity_id' => $activity_id,
                 'user_id' => $user_id,
+                'count' => $count,
                 'status' => 'padding'
             ];
             $add_item = [

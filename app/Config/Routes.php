@@ -27,7 +27,7 @@ $routes->post($baseSubURL . '/addRegister', 'HomeController::add_register');
 $routes->post($baseSubURL . '/check_duplicate', 'HomeController::check_duplicate');
 $routes->get($baseSubURL . '/bookingActivity', 'HomeController::activity_book');
 $routes->get($baseSubURL . '/activityDetails/(:any)', 'HomeController::activity_detail/$1');
-$routes->post($baseSubURL . '/confirmBooking/(:any)/(:any)', 'HomeController::activity_confirm_booking/$1/$2');
+$routes->post($baseSubURL . '/confirmBooking/(:any)/(:any)/(:any)', 'HomeController::activity_confirm_booking/$1/$2/$3');
 
 
 $routes->match(['get', 'post'], $backendPrefix . '/login', 'BackendController::login');

@@ -34,16 +34,24 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                 </div>
             </div>
             <div class="col-5 text-end">
-                <button type="button" onclick="openCheckActivity('<?= USER_ID ?>','<?= $activity['id'] ?>')"
-                    class="btn btn-green-gradient fs-5">จองกิจกรรม</button>
+                <div class="fs-4 mt-3">
+                    <?php
+                    if (!empty($activity['type_total'])) {
+                        if ($activity['type_total'] == 'unlimited') {
+                            echo lang('home.unlimited');
+                        } else {
+                            echo $items . '/' . $activity['total_number'];
+                        }
+                    }
+                    ?>
+                </div>
+                <div class="d-flex justify-content-end align-items-center my-3">
+                    <button id="decrementButton" class="btn fs-2">-</button>
+                    <span id="counter" class="fs-4 mx-1">1</span>
+                    <button id="incrementButton" class="btn fs-2">+</button>
+                </div>
 
-                <div class="fs-4 mt-3"><?php
-                if ($activity['type_total'] == 'unlimited') {
-                    echo lang('home.unlimited');
-                } else {
-                    echo $items . '/' . $activity['total_number'];
-                }
-                ?></div>
+                <button type="button" id="bookingButton" class="btn btn-green-gradient fs-5">จองกิจกรรม</button>
             </div>
 
             <div class="col-12 text-center mt-5">
@@ -77,17 +85,47 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
 
 <script>
 
-    function openCheckActivity(user_id, activity_id) {
+    let count = 1;
+
+    $(document).ready(function () {
+        $("#incrementButton").click(function () {
+            count += 1;
+            $("#counter").text(count);
+            updateButtons();
+        });
+
+        $("#decrementButton").click(function () {
+            if (count > 1) {
+                count -= 1;
+                $("#counter").text(count);
+                updateButtons();
+            }
+        });
+
+        function updateButtons() {
+            $("#decrementButton").prop("disabled", count === 1);
+        }
+
+        $("#bookingButton").click(function () {
+            const user_id = '<?= USER_ID ?>';
+            const activity_id = '<?= $activity['id'] ?>';
+            openCheckActivity(user_id, activity_id, count);
+        });
+
+        updateButtons();
+    });
+    function openCheckActivity(user_id, activity_id, count) {
 
         if (user_id == '') {
             $('#profileModal').modal('show');
         } else {
             $.ajax({
-                url: `${asset_url}confirmBooking/${user_id}/${activity_id}`,
+                url: `${asset_url}confirmBooking/${user_id}/${activity_id}/${count}`,
                 type: 'POST',
                 data: {
                     user_id: user_id,
                     activity_id: activity_id,
+                    count: count,
                     '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
                 },
                 dataType: 'json',
@@ -112,5 +150,6 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
             })
         }
     }
+
 </script>
 <?= $this->endSection() ?>

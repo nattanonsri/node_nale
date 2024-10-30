@@ -27,18 +27,20 @@
             </div>
             <div class="col-12 mt-3">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="type_total" id="limited" value="limited" <?= $activity['type_total'] == 'limited' ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="radio" name="type_total" id="limited" value="limited"
+                        <?= $activity['type_total'] == 'limited' ? 'checked' : '' ?>>
                     <label class="form-check-label" for="limited"><?= lang('backend.limited') ?></label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="type_total" id="unlimited" value="unlimited" <?= $activity['type_total'] == 'unlimited' ? 'checked' : '' ?> >
+                    <input class="form-check-input" type="radio" name="type_total" id="unlimited" value="unlimited"
+                        <?= $activity['type_total'] == 'unlimited' ? 'checked' : '' ?>>
                     <label class="form-check-label" for="unlimited"><?= lang('backend.unlimited') ?></label>
                 </div>
             </div>
             <div class="col-12 mt-3" id="num_total">
                 <label for="total_number"><?= lang('backend.total_number') ?></label>
-                <input type="text" class="form-control" id="total_number" name="total_number" value="<?= $activity['total_number'] ?>"
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                <input type="text" class="form-control" id="total_number" name="total_number"
+                    value="<?= $activity['total_number'] ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             </div>
             <div class="col-6 mt-3">
                 <label for="image"><?= lang('backend.image') ?></label>
@@ -65,6 +67,23 @@
 
 <script>
     $(document).ready(function () {
+
+        // ตรวจสอบสถานะตอนเริ่มต้น
+        if ($('#limited').prop('checked')) {
+            $('#num_total').show();
+        } else {
+            $('#num_total').hide();
+        }
+
+        // ตั้งค่า event handler
+        $('#limited').on('change', function () {
+            $('#num_total').show();
+        });
+
+        $('#unlimited').on('change', function () {
+            $('#num_total').hide();
+        });
+
 
         var start_date = moment('<?= $activity['start_date_formatted'] ?>');
         var end_date = moment('<?= $activity['end_date_formatted'] ?>');

@@ -51,6 +51,7 @@ class ActivityBookModel extends Model
             cat.name_th as name_category, 
             act.image, 
             act.price,
+            book.count,
             book.status,
             act.start_datetime, 
             act.end_datetime
