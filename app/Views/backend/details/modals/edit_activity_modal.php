@@ -66,6 +66,20 @@
 <script>
     $(document).ready(function () {
 
+    if ($('#limited').prop('checked')) {
+        $('#num_total').show();
+    } else {
+        $('#num_total').hide();
+    }
+
+    $('#limited').on('change', function () {
+        $('#num_total').show();
+    });
+
+    $('#unlimited').on('change', function () {
+        $('#num_total').hide();
+    });
+
         var start_date = moment('<?= $activity['start_date_formatted'] ?>');
         var end_date = moment('<?= $activity['end_date_formatted'] ?>');
         $('input[name="datetimes"]').daterangepicker({

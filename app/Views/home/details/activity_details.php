@@ -38,10 +38,12 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                     class="btn btn-green-gradient fs-5">จองกิจกรรม</button>
 
                 <div class="fs-4 mt-3"><?php
-                if ($activity['type_total'] == 'unlimited') {
-                    echo lang('home.unlimited');
-                } else {
-                    echo $items . '/' . $activity['total_number'];
+                if(!empty($activity['type_total'])) {
+                    if ($activity['type_total'] == 'unlimited') {
+                        echo lang('home.unlimited');
+                    } else {
+                        echo $items . '/' . $activity['total_number'];
+                    }
                 }
                 ?></div>
             </div>
