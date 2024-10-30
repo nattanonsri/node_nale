@@ -52,7 +52,11 @@ return [
     'padding' => 'รออนุมัติ',
     'approve' => 'อนุมัติ',
     'reject' => 'ไม่อนุมัติ',
-    
+    'type_total' => 'เลือกจำกัดคนไหม',
+    'limited' => 'จำกัด',
+    'unlimited' => 'ไม่จำกัด',
+    'total_number' => 'จำนวน',
+
 
 
 ];

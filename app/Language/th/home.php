@@ -62,6 +62,7 @@ return [
     'padding'                                   => 'รออนุมัติ',
     'approve'                                   => 'อนุมัติ',
     'reject'                                    => 'ไม่อนุมัติ',
-
-
+    'limited'                                   => 'จำกัด',
+    'unlimited'                                 => 'ไม่จำกัด',
+    'total_number'                              => 'จำนวน',
 ];

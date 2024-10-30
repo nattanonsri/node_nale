@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ActivityAlbumModel;
 use App\Models\ActivityBookModel;
+use App\Models\ActivityItemModel;
 use App\Models\ActivityModel;
 use App\Models\CategoryModel;
 use App\Models\MemberModel;
@@ -12,7 +13,7 @@ use App\Libraries\Auth;
 
 class HomeController extends BaseController
 {
-    protected $categoryModel, $activityModel, $activityBookModel, $activityAlbumModel, $memberModel;
+    protected $categoryModel, $activityModel, $activityBookModel, $activityAlbumModel, $memberModel, $activityItemModel;
     public function __construct()
     {
         $this->Auth = new Auth;
@@ -20,6 +21,7 @@ class HomeController extends BaseController
         $this->activityModel = new ActivityModel();
         $this->activityBookModel = new ActivityBookModel();
         $this->activityAlbumModel = new ActivityAlbumModel();
+        $this->activityItemModel = new ActivityItemModel();
         $this->memberModel = new MemberModel();
 
 
@@ -50,6 +52,7 @@ class HomeController extends BaseController
 
     public function activity_detail($uuid)
     {
+        $data['items'] = $this->activityItemModel->countAllResults();
         $data['activity'] = $this->activityModel->where('uuid', $uuid)->first();
         return view('home/details/activity_details', $data);
 
@@ -69,10 +72,17 @@ class HomeController extends BaseController
                 'user_id' => $user_id,
                 'status' => 'padding'
             ];
+            $add_item = [
+                'uuid' => Uuid::uuid4()->toString(),
+                'user_id' => $user_id,
+                'activity_id' => $activity_id,
+                'quantity' => '1'
+            ];
 
-            $inser_book = $this->activityBookModel->insert($add_book);
+            $insert_book = $this->activityBookModel->insert($add_book);
+            $insert_item = $this->activityItemModel->insert($add_item);
 
-            if ($inser_book) {
+            if ($insert_book && $insert_item) {
                 $data = ['status' => 200, 'message' => 'รออนุมัติจองกิจกรรม'];
             } else {
                 $data = ['status' => 400, 'message' => 'จองกิจกรรมไม่สำเร็จ'];

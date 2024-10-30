@@ -27,11 +27,12 @@
                             $startDateTime = new DateTime($act['start_datetime']);
                             $endDateTime = new DateTime($act['end_datetime']);
                             //(!empty($act['image']) ? $act['image'] : lang('backend.null-value'))
+                            $priceText = !empty($act['price']) ? number_format($act['price']) . ' บาท' : '0 บาท';
                             echo '<tr>
                                     <td>' . $n . '</td>
                                     <td><img src="' . asset_url($act['image']) . '" width="140px"></td>
                                     <td>' . $act['name'] . '</td>
-                                    <td>' . $act['price'] . '</td>
+                                    <td>' . $priceText . '</td>
                                     <td>' . $startDateTime->format('H:i:s d/m/Y') . '</td>
                                     <td>' . $endDateTime->format('H:i:s d/m/Y') . '</td>
                                     <td>
