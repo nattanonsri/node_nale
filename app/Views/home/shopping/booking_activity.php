@@ -17,11 +17,9 @@
                     $grandTotal = 0;
                     foreach ($bookings as $booking):
 
-                        $start_date = new DateTime($booking['start_datetime'], new DateTimeZone('UTC'));
-                        $start_date->setTimezone(new DateTimeZone('Asia/Bangkok'));
+                        $start_date = date('H:i d/m/Y', strtotime($booking['start_datetime']));
+                        $end_date = date('H:i d/m/Y', strtotime($booking['end_datetime']));
 
-                        $end_date = new DateTime($booking['end_datetime'], new DateTimeZone('UTC'));
-                        $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
 
                         $price = !empty($booking['price']) ? $booking['price'] : '0';
                         $total = $booking['count'] * $price;
@@ -54,7 +52,7 @@
                             </div>
                             <div>
                                 <span
-                                    class="fs-5"><?= $start_date->format('H:i d/m/Y') . ' - ' . $end_date->format('H:i d/m/Y') ?></span>
+                                    class="fs-5"><?= $start_date . ' - ' . $end_date ?></span>
                             </div>
                         </div>
 

@@ -54,6 +54,8 @@ class ActivityBookModel extends Model
             act.price,
             book.count,
             book.status,
+            book.start_datetime as book_start_datetime,
+            book.end_datetime as book_end_datetime,
             act.start_datetime, 
             act.end_datetime
         FROM tb_activity_book as book

@@ -60,11 +60,15 @@ class HomeController extends BaseController
 
     public function activity_confirm_booking($user_id = '', $activity_id = '', $count = '')
     {
+
+
         if ($this->request->getPost()) {
 
             $user_id = $this->request->getPost('user_id');
             $activity_id = $this->request->getPost('activity_id');
             $count = $this->request->getPost('count');
+            $start_date = $this->request->getPost('start_date');
+            $end_date = $this->request->getPost('end_date');
 
 
             $add_book = [
@@ -72,8 +76,11 @@ class HomeController extends BaseController
                 'activity_id' => $activity_id,
                 'user_id' => $user_id,
                 'count' => $count,
+                'start_datetime' => $start_date,
+                'end_datetime' => $end_date,
                 'status' => 'padding'
             ];
+
             $add_item = [
                 'uuid' => Uuid::uuid4()->toString(),
                 'user_id' => $user_id,

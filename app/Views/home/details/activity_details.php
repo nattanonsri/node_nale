@@ -3,11 +3,9 @@
 <?= $this->section('content') ?>
 <?php
 
-$start_date = new DateTime($activity['start_datetime'], new DateTimeZone('UTC'));
-$start_date->setTimezone(new DateTimeZone('Asia/Bangkok'));
 
-$end_date = new DateTime($activity['end_datetime'], new DateTimeZone('UTC'));
-$end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
+$start_date = date('H:i d/m/Y', strtotime($activity['start_datetime']));
+$end_date = date('H:i d/m/Y', strtotime($activity['end_datetime']));
 
 
 $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' บาท' : '0 บาท';
@@ -27,10 +25,10 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                     <div class="col-12 fs-5 mt-3"><?= $activity['address'] ?></div>
 
                     <div class="col-6 text-green fs-4 mt-4">เวลาเริ่มกิจกรรม</div>
-                    <div class="col-6 fs-5 mt-4"><?= $start_date->format('H:i d/m/Y') ?></div>
+                    <div class="col-6 fs-5 mt-4"><?= $start_date ?></div>
 
                     <div class="col-6 text-green fs-4 mt-4">เวลาหมดกิจกรรม</div>
-                    <div class="col-6 fs-5 mt-4"><?= $end_date->format('H:i d/m/Y') ?></div>
+                    <div class="col-6 fs-5 mt-4"><?= $end_date ?></div>
                 </div>
             </div>
             <div class="col-5 text-end">
@@ -50,6 +48,12 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                     <span id="counter" class="fs-4 mx-1">1</span>
                     <button id="incrementButton" class="btn fs-2">+</button>
                 </div>
+
+                <div class="my-2 d-grid justify-content-end" style="grid-template-columns: max-content;">
+                    <input type="text" class="form-control" id="datetimes" name="datetimes">
+                </div>
+                <input type="hidden" name="start_date" id="start_date">
+                <input type="hidden" name="end_date" id="end_date">
 
                 <button type="button" id="bookingButton" class="btn btn-green-gradient fs-5">จองกิจกรรม</button>
             </div>
@@ -85,26 +89,38 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
 
 <script>
 
+    let items = <?= isset($items) ? $items : 0 ?>;
+    let maxLimit = <?= isset($activity['total_number']) ? $activity['total_number'] : 0 ?>;
+    let maxCount = maxLimit - items;
     let count = 1;
 
     $(document).ready(function () {
-        $("#incrementButton").click(function () {
-            count += 1;
+
+        function updateCounter() {
             $("#counter").text(count);
-            updateButtons();
+            $("#decrementButton").prop("disabled", count === 1);
+            $("#incrementButton").prop("disabled", count >= maxCount || count >= maxLimit);
+        }
+
+        updateCounter();
+
+        $("#incrementButton").click(function () {
+            if (count < maxCount && (count + items) < maxLimit) {
+                count += 1;
+                updateCounter();
+            }
         });
 
         $("#decrementButton").click(function () {
             if (count > 1) {
                 count -= 1;
-                $("#counter").text(count);
-                updateButtons();
+                updateCounter();
             }
         });
 
-        function updateButtons() {
-            $("#decrementButton").prop("disabled", count === 1);
-        }
+        console.log("Current booked items:", items);
+        console.log("Maximum allowed count:", maxLimit);
+        console.log("Max count based on limit and booked items:", maxCount);
 
         $("#bookingButton").click(function () {
             const user_id = '<?= USER_ID ?>';
@@ -112,7 +128,36 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
             openCheckActivity(user_id, activity_id, count);
         });
 
-        updateButtons();
+
+        $('input[name="datetimes"]').daterangepicker({
+            timePicker: true,
+            timePicker24Hour: true,
+            startDate: moment('<?= date('Y-m-d H:i:s', strtotime($activity['start_datetime'])) ?>'),
+            endDate: moment('<?= date('Y-m-d H:i:s', strtotime($activity['end_datetime'])) ?>'),
+            minDate: moment('<?= date('Y-m-d H:i:s', strtotime($activity['start_datetime'])) ?>'),
+            maxDate: moment('<?= date('Y-m-d H:i:s', strtotime($activity['end_datetime'])) ?>'),
+            locale: {
+                format: 'M/DD hh:mm',
+                separator: ' - ',
+                applyLabel: 'ยืนยัน',
+                cancelLabel: 'ยกเลิก',
+                fromLabel: 'จาก',
+                toLabel: 'ถึง',
+                daysOfWeek: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                monthNames: [
+                    'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+                    'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+                ]
+            },
+            isInvalidDate: function (date) {
+                return date.isBefore(moment('<?= date('Y-m-d H:i:s', strtotime($activity['start_datetime'])) ?>')) ||
+                    date.isAfter(moment('<?= date('Y-m-d H:i:s', strtotime($activity['end_datetime'])) ?>'));
+            }
+        }, function (start, end, label) {
+            $('#start_date').val(start.format('YYYY-MM-DD HH:mm:ss'));
+            $('#end_date').val(end.format('YYYY-MM-DD HH:mm:ss'));
+        });
+
     });
     function openCheckActivity(user_id, activity_id, count) {
 
@@ -126,6 +171,8 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                     user_id: user_id,
                     activity_id: activity_id,
                     count: count,
+                    start_date: $('#start_date').val(),
+                    end_date: $('#end_date').val(),
                     '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
                 },
                 dataType: 'json',
@@ -136,7 +183,7 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                             title: '<?= lang('home.notification') ?>',
                             text: data.message
                         }).then(function () {
-                            window.location.href = `${asset_url}bookingActivity`
+                            // window.location.href = `${asset_url}bookingActivity`
                         });
                     } else {
                         Swal.fire({

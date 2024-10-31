@@ -24,17 +24,18 @@
                         <?php
                         $n = 1;
                         foreach ($activitys as $act) {
-                            $startDateTime = new DateTime($act['start_datetime']);
-                            $endDateTime = new DateTime($act['end_datetime']);
-                            //(!empty($act['image']) ? $act['image'] : lang('backend.null-value'))
+
+                            $start_date = date('H:i d/m/Y', strtotime($act['start_datetime']));
+                            $end_date = date('H:i d/m/Y', strtotime($act['end_datetime']));
+
                             $priceText = !empty($act['price']) ? number_format($act['price']) . ' บาท' : '0 บาท';
                             echo '<tr>
                                     <td>' . $n . '</td>
                                     <td><img src="' . asset_url($act['image']) . '" width="140px"></td>
                                     <td>' . $act['name'] . '</td>
                                     <td>' . $priceText . '</td>
-                                    <td>' . $startDateTime->format('H:i:s d/m/Y') . '</td>
-                                    <td>' . $endDateTime->format('H:i:s d/m/Y') . '</td>
+                                    <td>' . $start_date . '</td>
+                                    <td>' . $end_date . '</td>
                                     <td>
                                         <a role="button" data-bs-toggle="tooltip" data-bs-title="' . lang('backend.edit') . '" class="modalButton" onclick="btnEditActs(\'' . $act['uuid'] . '\')">
                                             <i class="fa-solid fa-pen-to-square fs-3 text-warning"></i>
@@ -150,5 +151,5 @@
             }
         })
     }
-    
+
 </script>

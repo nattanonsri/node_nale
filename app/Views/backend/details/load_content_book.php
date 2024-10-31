@@ -29,13 +29,7 @@
                         <?php
                         $n = 1;
                         foreach ($books as $book) {
-        
-                            $start_date = new DateTime($book['start_datetime'], new DateTimeZone('UTC'));
-                            $start_date->setTimezone(new DateTimeZone('Asia/Bangkok'));
-    
-                            $end_date = new DateTime($book['end_datetime'], new DateTimeZone('UTC'));
-                            $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
-    
+                        
                             $price = !empty($book['price']) ? $book['price'] : '0';
                             $total = $book['count'] * $price;
                             $priceText = number_format($total) . ' บาท';
@@ -48,7 +42,8 @@
                             echo '<td class="fs-5 text-center">' . $book['name_category'] . '</td>';
                             echo '<td class="fs-5 text-center">' . $book['count'] . '</td>';
                             echo '<td class="fs-5 text-center">' . $priceText . '</td>';
-                            echo '<td class="fs-5 text-center">' . $start_date->format('H:i d/m/Y') . ' - ' . $end_date->format('H:i d/m/Y') . '</td>';
+                            // echo '<td class="fs-5 text-center">' . $start_date->format('H:i d/m/Y') . ' - ' . $end_date->format('H:i d/m/Y') . '</td>';
+                            echo '<td class="fs-5 text-center">' . date('H:i d/m/Y', strtotime($book['book_start_datetime'])) . ' - ' . date('H:i d/m/Y', strtotime($book['book_end_datetime'])) . '</td>';
                             echo '<td class="text-center fs-5">';
                             if ($book['status'] == 'padding') {
                                 echo '<button type="button" onclick="approveBooking(\'' . $book['uuid'] . '\')" class="btn btn-success btn-sm">';

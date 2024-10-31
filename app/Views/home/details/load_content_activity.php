@@ -3,11 +3,8 @@
         <?php if (!empty($activitys)): ?>
             <?php foreach ($activitys as $activity):
 
-                $start_date = new DateTime($activity['start_datetime'], new DateTimeZone('UTC'));
-                $start_date->setTimezone(new DateTimeZone('Asia/Bangkok'));
-
-                $end_date = new DateTime($activity['end_datetime'], new DateTimeZone('UTC'));
-                $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
+                $start_date = date('H:i d/m/Y', strtotime($activity['start_datetime']));
+                $end_date = date('H:i d/m/Y', strtotime($activity['end_datetime']));
 
                 ?>
                 <div class="swiper-slide">
@@ -16,7 +13,7 @@
                         style="cursor: pointer">
                         <div class="image-activity" style="background-image: url(<?= asset_url($activity['image']) ?>);"></div>
                         <div class="mt-3">
-                            เวลาเริ่ม <?= $start_date->format('H:i d/m/Y') . ' - ' . $end_date->format('H:i d/m/Y') ?>
+                            เวลาเริ่ม <?= $start_date. ' - ' . $end_date ?>
                         </div>
                         <div class="fs-4 mt-3">
                             <?= (mb_strlen($activity['name'], 'UTF-8') > 32) ? mb_substr($activity['name'], 0, 32, 'UTF-8') . '...' : $activity['name'] ?>
