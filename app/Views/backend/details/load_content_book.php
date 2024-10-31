@@ -14,11 +14,14 @@
                 <table class="table table-striped" id="my_book" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th class="text-center fs-5" width="10%">ลำดับ</th>
+                            <th class="text-center fs-5" width="5%">ลำดับ</th>
                             <th class="text-center fs-5">ชื่อ-นามสกุล</th>
+                            <th class="text-center fs-5">เบอร์โทรศัพท์</th>
                             <th class="text-center fs-5">ชื่อกิจกรรม</th>
                             <th class="text-center fs-5">ชื่อประเภท</th>
-                            <th class="text-center fs-5">ราคา</th>
+                            <th class="text-center fs-5" width="7%">จำนวนคน</th>
+                            <th class="text-center fs-5">ราคาทั้งหมด</th>
+                            <th class="text-center fs-5">ช่วงเวลากิจกรรม</th>
                             <th class="text-center fs-5">สถานะ</th>
                         </tr>
                     </thead>
@@ -26,13 +29,26 @@
                         <?php
                         $n = 1;
                         foreach ($books as $book) {
-                            $priceText = !empty($act['price']) ? number_format($act['price']) . ' บาท' : '0 บาท';
+        
+                            $start_date = new DateTime($book['start_datetime'], new DateTimeZone('UTC'));
+                            $start_date->setTimezone(new DateTimeZone('Asia/Bangkok'));
+    
+                            $end_date = new DateTime($book['end_datetime'], new DateTimeZone('UTC'));
+                            $end_date->setTimezone(new DAteTimeZone('Asia/Bangkok'));
+    
+                            $price = !empty($book['price']) ? $book['price'] : '0';
+                            $total = $book['count'] * $price;
+                            $priceText = number_format($total) . ' บาท';
+
                             echo '<tr>';
-                            echo '<td class="text-center fs-5">' . $n . '</td>';
-                            echo '<td class="text-center fs-5">' . $book['full_name'] . '</td>';
-                            echo '<td class="text-center fs-5">' . $book['name_activity'] . '</td>';
-                            echo '<td class="text-center fs-5">' . $book['name_category'] . '</td>';
-                            echo '<td class="text-center fs-5">' . $priceText . '</td>';
+                            echo '<td class="fs-5 text-center">' . $n . '</td>';
+                            echo '<td class="fs-5 text-center">' . $book['full_name'] . '</td>';
+                            echo '<td class="fs-5 text-center">' . $book['tel'] . '</td>';
+                            echo '<td class="fs-5 text-center">' . $book['name_activity'] . '</td>';
+                            echo '<td class="fs-5 text-center">' . $book['name_category'] . '</td>';
+                            echo '<td class="fs-5 text-center">' . $book['count'] . '</td>';
+                            echo '<td class="fs-5 text-center">' . $priceText . '</td>';
+                            echo '<td class="fs-5 text-center">' . $start_date->format('H:i d/m/Y') . ' - ' . $end_date->format('H:i d/m/Y') . '</td>';
                             echo '<td class="text-center fs-5">';
                             if ($book['status'] == 'padding') {
                                 echo '<button type="button" onclick="approveBooking(\'' . $book['uuid'] . '\')" class="btn btn-success btn-sm">';

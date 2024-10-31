@@ -51,11 +51,11 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="name_th"><?= lang('backend.name_th') ?></label>
-                        <input type="text" class="form-control" id="name_th" name="name_th">
+                        <input type="text" class="form-control" id="name_th" name="name_th" oninput="this.value = this.value.replace(/[^\u0E00-\u0E7F]/g, '')">
                     </div>
                     <div class="col-6">
                         <label for="name_en"><?= lang('backend.name_en') ?></label>
-                        <input type="text" class="form-control" id="name_en" name="name_en">
+                        <input type="text" class="form-control" id="name_en" name="name_en" oninput="this.value = this.value.replace(/[^a-zA-Z'.]/g, '')">
                     </div>
                 </div>
             </div>
@@ -518,7 +518,7 @@
             type: 'POST',
             data: {
                 name_th: $('#name_th').val(),
-                name_en: $('#name_th').val(),
+                name_en: $('#name_en').val(),
             },
             headers: {
                 '<?= csrf_header() ?>': '<?= csrf_hash() ?>'

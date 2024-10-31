@@ -47,6 +47,7 @@ class ActivityBookModel extends Model
             book.uuid,
             CONCAT(user.first_name, ' ', user.last_name) as full_name,
             user.username, 
+            user.tel,
             act.name as name_activity, 
             cat.name_th as name_category, 
             act.image, 
