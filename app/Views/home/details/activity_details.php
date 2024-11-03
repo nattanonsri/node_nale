@@ -3,10 +3,8 @@
 <?= $this->section('content') ?>
 <?php
 
-
 $start_date = date('H:i d/m/Y', strtotime($activity['start_datetime']));
 $end_date = date('H:i d/m/Y', strtotime($activity['end_datetime']));
-
 
 $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' บาท' : '0 บาท';
 ?>
@@ -43,6 +41,7 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                     }
                     ?>
                 </div>
+                <div class="mt-3 fs-5">จำนวนคน</div>
                 <div class="d-flex justify-content-end align-items-center my-3">
                     <button id="decrementButton" class="btn fs-2">-</button>
                     <span id="counter" class="fs-4 mx-1">1</span>
@@ -90,8 +89,8 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
 <script>
 
     let items = <?= isset($items) ? $items : 0 ?>;
-    let maxLimit = <?= isset($activity['total_number']) ? $activity['total_number'] : 0 ?>;
-    let maxCount = maxLimit - items;
+    let maxLimit = <?= isset($activity['total_number']) && $activity['total_number'] > 0 ? $activity['total_number'] : 'Infinity' ?>;
+    let maxCount = maxLimit === Infinity ? Infinity : maxLimit - items;
     let count = 1;
 
     $(document).ready(function () {
@@ -183,7 +182,7 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                             title: '<?= lang('home.notification') ?>',
                             text: data.message
                         }).then(function () {
-                            // window.location.href = `${asset_url}bookingActivity`
+                            window.location.href = `${asset_url}bookingActivity`
                         });
                     } else {
                         Swal.fire({

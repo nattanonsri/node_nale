@@ -23,10 +23,10 @@
                             <a href="<?= base_url('#home') ?>" class="nav-link fs-4">หน้าแรก</a>
                         </li>
                         <li class="nav-item mx-4">
-                            <a href="<?= base_url('#activity') ?>" class="nav-link fs-4">กิจกรรมโหนดนาเล</a>
+                            <a href="<?= base_url('#activity') ?>" class="nav-link fs-4">กิจกรรมชุมชนโหนดนาเล</a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= base_url('#album') ?>" class="nav-link fs-4">อัลบั้มกิจกรรม</a>
+                            <a href="<?= base_url('#album') ?>" class="nav-link fs-4">รูปภาพกิจกรรม</a>
                         </li>
                     </ul>
                 </div>
@@ -34,7 +34,7 @@
                 <!-- ไอคอนผู้ใช้ -->
                 <div class="col-2 text-end d-none d-lg-block">
                     <?php if (empty(USER_ID)): ?>
-                        <a href="<?= asset_url('login') ?>" class="text-decoration-none fs-4 text-dark">เข้าสู้ระบบ</a>
+                        <a href="<?= asset_url('login') ?>" class="text-decoration-none fs-4 text-dark">เข้าสู่ระบบ</a>
                     <?php else: ?>
                         <a class="nav-link dropdown-toggle" role="button" id="btnDropdown" aria-expanded="false">
                             <span class="mr-2 d-lg-inline fs-4"><?= FULLNAME ?></span>
@@ -65,7 +65,7 @@
                 </span>
                 <br>
                 <span style="font-size: 4rem; color: #f8f9fa; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);">
-                    ชุมชนโหนดนาเล
+                    ศูนย์เรียนรู้ชุมชนโหนดนาเล
                 </span>
             </div>
         </div>

@@ -17,8 +17,8 @@
                     $grandTotal = 0;
                     foreach ($bookings as $booking):
 
-                        $start_date = date('H:i d/m/Y', strtotime($booking['start_datetime']));
-                        $end_date = date('H:i d/m/Y', strtotime($booking['end_datetime']));
+                        $start_date = date('H:i d/m/Y', strtotime($booking['book_start_datetime']));
+                        $end_date = date('H:i d/m/Y', strtotime($booking['book_end_datetime']));
 
 
                         $price = !empty($booking['price']) ? $booking['price'] : '0';
@@ -52,7 +52,7 @@
                             </div>
                             <div>
                                 <span
-                                    class="fs-5"><?= $start_date . ' - ' . $end_date ?></span>
+                                    class="fs-5">วันที่จอง : <?= $start_date . ' - ' . $end_date ?></span>
                             </div>
                         </div>
 

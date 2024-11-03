@@ -130,6 +130,10 @@
   .bg-green-white {
     background: #b9ffc945;
   }
+  .bg-green {
+    background: rgba(4, 131, 33, 1);
+    color: #ffffff;
+  }
 </style>
 
 
