@@ -8,7 +8,7 @@ $end_date = date('H:i d/m/Y', strtotime($activity['end_datetime']));
 
 $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' บาท' : '0 บาท';
 ?>
-<section style="min-height: 80vh;">
+<section id="activityDetail" style="min-height: 80vh;">
     <div class="container">
         <div class="row bg-white border shadow p-4 mt-5">
 
@@ -55,6 +55,13 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                 <input type="hidden" name="end_date" id="end_date">
 
                 <button type="button" id="bookingButton" class="btn btn-green-gradient fs-5">จองกิจกรรม</button>
+
+                <div id="loader"
+                    style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 9999;">
+                    <div class="spinner" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
 
             <div class="col-12 text-center mt-5">
@@ -175,16 +182,22 @@ $priceText = !empty($activity['price']) ? number_format($activity['price']) . ' 
                     '<?= csrf_token() ?>': '<?= csrf_hash() ?>',
                 },
                 dataType: 'json',
+                beforeSend: function () {
+                    $('#bookingButton').attr('disabled', true);
+                    $('#loader').show();
+                },
                 success: function (data) {
                     if (data.status == 200) {
+                        $('#loader').hide();
                         Swal.fire({
                             icon: 'success',
                             title: '<?= lang('home.notification') ?>',
                             text: data.message
                         }).then(function () {
-                            window.location.href = `${asset_url}bookingActivity`
+                            window.location.href = `${asset_url}bookingActivity#shopping`
                         });
                     } else {
+                        $('#loader').hide();
                         Swal.fire({
                             icon: 'warning',
                             title: '<?= lang('home.notification') ?>',

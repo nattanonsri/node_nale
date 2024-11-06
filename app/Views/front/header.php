@@ -82,7 +82,7 @@
   }
 
   :root {
-    /* --swiper-theme-color: #fcb045; */
+    --swiper-theme-color: rgba(4, 131, 33, 1);
   }
 
   body {
@@ -130,9 +130,27 @@
   .bg-green-white {
     background: #b9ffc945;
   }
+
   .bg-green {
     background: rgba(4, 131, 33, 1);
     color: #ffffff;
+  }
+
+
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: rgba(4, 131, 33, 1);
+    animation: spin 1s linear infinite;
+  }
+
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>
 

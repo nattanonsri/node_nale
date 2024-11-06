@@ -30,4 +30,4 @@
 </script>
 <?= $this->renderSection('content') ?>
 
-<?= $this->include('front/footer') ?>
+<?= $this->include('front/footer_home') ?>

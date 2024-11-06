@@ -42,7 +42,7 @@
                         </a>
                         <div class="dropdown-menu" id="dropdownMenu" aria-labelledby="btnDropdown"
                             style="max-width: 200px; display: none;">
-                            <a class="dropdown-item fs-5" href="<?= base_url('bookingActivity') ?>">
+                            <a class="dropdown-item fs-5" href="<?= base_url('bookingActivity'.'#shopping') ?>">
                                 <i class="fa-solid fa-bag-shopping fs-5 mr-1"></i>
                                 <?= lang('home.shopping') ?>
                             </a>

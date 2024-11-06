@@ -9,7 +9,7 @@
                 ?>
                 <div class="swiper-slide">
                     <div class="card bg-white rounded-4 p-3" role="button"
-                        onclick="window.location.href='<?= asset_url('activityDetails/' . $activity['uuid']) ?>'"
+                        onclick="window.location.href='<?= asset_url('activityDetails/' . $activity['uuid'].'#activityDetail') ?>'"
                         style="cursor: pointer">
                         <div class="image-activity" style="background-image: url(<?= asset_url($activity['image']) ?>);"></div>
                         <div class="mt-3">

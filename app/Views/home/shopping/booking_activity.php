@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<section style="min-height: 80vh;">
+<section id="shopping" style="min-height: 80vh;">
     <div class="container">
         <div class="row bg-white border rounded-4 shadow-lg p-5 my-5">
             <div class="col-12 border-bottom border-dark pb-3 mb-4 text-center">
