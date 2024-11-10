@@ -53,15 +53,18 @@
                                     } elseif ($booking['status'] == 'reject') {
                                         echo lang('backend.reject');
                                     } else {
-                                        echo lang('backend.padding');
+                                        echo lang('backend.pending');
                                     }
                                     ?>
                         </p>
                     </div>
                     <div class="d-flex flex-column align-items-end">
                         <div class="fs-5">วันที่จอง : <?= $start_date . ' - ' . $end_date ?></div>
-                        <a href="<?= base_url('bookingActivity/deleteBooking/' . $booking['uuid']) ?>"
-                            class="mt-auto text-danger fs-5">ยกเลิก</a>
+
+                        <?php if ($booking['status'] == 'pending') {
+                                    echo ' <a href="' . base_url('bookingActivity/deleteBooking/' . $booking['uuid']) . '" class="mt-auto text-danger fs-5">ยกเลิก</a>';
+                                } ?>
+
                     </div>
                 </div>
 

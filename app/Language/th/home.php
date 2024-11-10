@@ -59,7 +59,7 @@ return [
     'email'                                     => 'อีเมล',
     'shopping'                                  => 'รายการจอง',
     'booking-activity'                          => 'รายการจองกิจกรรม',
-    'padding'                                   => 'รออนุมัติ',
+    'pending'                                   => 'รออนุมัติ',
     'approve'                                   => 'อนุมัติ',
     'reject'                                    => 'ไม่อนุมัติ',
     'limited'                                   => 'จำกัด',

@@ -45,7 +45,7 @@
                             // echo '<td class="fs-5 text-center">' . $start_date->format('H:i d/m/Y') . ' - ' . $end_date->format('H:i d/m/Y') . '</td>';
                             echo '<td class="fs-5 text-center">' . date('H:i d/m/Y', strtotime($book['book_start_datetime'])) . ' - ' . date('H:i d/m/Y', strtotime($book['book_end_datetime'])) . '</td>';
                             echo '<td class="text-center fs-5">';
-                            if ($book['status'] == 'padding') {
+                            if ($book['status'] == 'pending') {
                                 echo '<button type="button" onclick="approveBooking(\'' . $book['uuid'] . '\')" class="btn btn-success btn-sm">';
                                 echo '<i class="fa-solid fa-check"></i>';
                                 echo '</button>';
@@ -75,91 +75,92 @@
 
 
 <script>
-    new DataTable('#my_book', {
-        "language": {
-            "sProcessing": "กำลังดำเนินการ...",
-            "sLengthMenu": "แสดง _MENU_ รายการ",
-            "sZeroRecords": "ไม่พบข้อมูล",
-            "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-            "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
-            "sInfoFiltered": "(กรองข้อมูล _MAX_ ทุกแถว)",
-            "sInfoPostFix": "",
-            "sSearch": "ค้นหา:",
-            "sUrl": "",
-            // "oPaginate": {
-            //     "sFirst":    "หน้าแรก",
-            //     "sPrevious": "ก่อนหน้า",
-            //     "sNext":     "ถัดไป",
-            //     "sLast":     "หน้าสุดท้าย"
-            // }
+new DataTable('#my_book', {
+    "language": {
+        "sProcessing": "กำลังดำเนินการ...",
+        "sLengthMenu": "แสดง _MENU_ รายการ",
+        "sZeroRecords": "ไม่พบข้อมูล",
+        "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+        "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
+        "sInfoFiltered": "(กรองข้อมูล _MAX_ ทุกแถว)",
+        "sInfoPostFix": "",
+        "sSearch": "ค้นหา:",
+        "sUrl": "",
+        // "oPaginate": {
+        //     "sFirst":    "หน้าแรก",
+        //     "sPrevious": "ก่อนหน้า",
+        //     "sNext":     "ถัดไป",
+        //     "sLast":     "หน้าสุดท้าย"
+        // }
+    }
+});
+
+var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+
+function approveBooking(uuid) {
+
+    $.ajax({
+        url: `${asset_url}backend/approveBooking/${uuid}`,
+        type: 'POST',
+        data: {
+            uuid: uuid,
+            '<?= csrf_token() ?>': '<?= csrf_hash() ?>'
+        },
+        dataType: 'json',
+        success: function(data) {
+            if (data.status == 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '<?= lang('backend.notification') ?>',
+                    text: data.message,
+                }).then(function() {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '<?= lang('backend.notification') ?>',
+                    text: data.message,
+
+                });
+            }
+        }
+    })
+}
+
+function rejectBooking(uuid) {
+
+    $.ajax({
+        url: `${asset_url}backend/rejectBooking/${uuid}`,
+        type: 'POST',
+        data: {
+            uuid: uuid,
+        },
+        headers: {
+            '<?= csrf_header() ?>': '<?= csrf_hash() ?>'
+        },
+        dataType: 'json',
+        success: function(data) {
+            if (data.status == 200) {
+                swal.fire({
+                    icon: 'success',
+                    title: '<?= lang('backend.notification') ?>',
+                    text: data.message,
+                }).then(function() {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '<?= lang('backend.notification') ?>',
+                    text: data.message,
+
+                });
+            }
         }
     });
 
-    var tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    var tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-
-
-    function approveBooking(uuid) {
-
-        $.ajax({
-            url: `${asset_url}backend/approveBooking/${uuid}`,
-            type: 'POST',
-            data: {
-                uuid: uuid,
-                '<?= csrf_token() ?>': '<?= csrf_hash() ?>'
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.status == 200) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '<?= lang('backend.notification') ?>',
-                        text: data.message,
-                    }).then(function () {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: '<?= lang('backend.notification') ?>',
-                        text: data.message,
-
-                    });
-                }
-            }
-        })
-    }
-    function rejectBooking(uuid) {
-
-        $.ajax({
-            url: `${asset_url}backend/rejectBooking/${uuid}`,
-            type: 'POST',
-            data: {
-                uuid: uuid,
-            },
-            headers: {
-                '<?= csrf_header() ?>': '<?= csrf_hash() ?>'
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data.status == 200) {
-                    swal.fire({
-                        icon: 'success',
-                        title: '<?= lang('backend.notification') ?>',
-                        text: data.message,
-                    }).then(function () {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: '<?= lang('backend.notification') ?>',
-                        text: data.message,
-
-                    });
-                }
-            }
-        });
-
-    }
+}
 </script>

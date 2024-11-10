@@ -56,7 +56,7 @@ class HomeController extends BaseController
         $booking_delete = $this->activityBookModel->delete($booking['id']);
 
         if ($booking_delete) {
-            return redirect()->to(base_url('bookingActivity#shopping'), 'refresh');
+            return redirect()->to(base_url('bookingActivity') . '#shopping');
         }
     }
 
@@ -88,7 +88,7 @@ class HomeController extends BaseController
                 'count' => $count,
                 'start_datetime' => $start_date,
                 'end_datetime' => $end_date,
-                'status' => 'padding'
+                'status' => 'pending'
             ];
 
             $add_item = [
