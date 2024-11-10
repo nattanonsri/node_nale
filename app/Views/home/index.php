@@ -45,11 +45,11 @@
 
             <div class="d-flex justify-content-center align-items-center flex-wrap gap-3">
                 <?php if (!empty($categorys)): ?>
-                    <button class="btn btn-green-gradient fs-5 active" data-target="#pills-0" data-id="0">ทั้งหมด</button>
-                    <?php foreach ($categorys as $category): ?>
-                        <button class="btn btn-green-gradient fs-5" data-target="#pills-<?= $category['id'] ?>"
-                            data-id="<?= $category['id'] ?>"><?= htmlspecialchars($category['name_th'], ENT_QUOTES, 'UTF-8') ?></button>
-                    <?php endforeach; ?>
+                <button class="btn btn-green-gradient fs-5 active" data-target="#pills-0" data-id="0">ทั้งหมด</button>
+                <?php foreach ($categorys as $category): ?>
+                <button class="btn btn-green-gradient fs-5" data-target="#pills-<?= $category['id'] ?>"
+                    data-id="<?= $category['id'] ?>"><?= htmlspecialchars($category['name_th'], ENT_QUOTES, 'UTF-8') ?></button>
+                <?php endforeach; ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -57,9 +57,9 @@
             <div id="content_0"></div>
         </div>
         <?php foreach ($categorys as $category): ?>
-            <div class="item-content d-none" id="pills-<?= $category['id'] ?>">
-                <div id="content_<?= $category['id'] ?>"></div>
-            </div>
+        <div class="item-content d-none" id="pills-<?= $category['id'] ?>">
+            <div id="content_<?= $category['id'] ?>"></div>
+        </div>
         <?php endforeach; ?>
     </div>
 
@@ -74,11 +74,11 @@
                 <div class="splide__track">
                     <ul class="splide__list">
                         <?php if (!empty($albums)): ?>
-                            <?php foreach ($albums as $album): ?>
-                                <li class="splide__slide">
-                                    <img src="<?= asset_url($album['path_images']) ?>">
-                                </li>
-                            <?php endforeach; ?>
+                        <?php foreach ($albums as $album): ?>
+                        <li class="splide__slide">
+                            <img src="<?= asset_url($album['path_images']) ?>">
+                        </li>
+                        <?php endforeach; ?>
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -86,11 +86,11 @@
 
             <ul id="thumbnails" class="thumbnails">
                 <?php if (!empty($albums)): ?>
-                    <?php foreach ($albums as $album): ?>
-                        <li class="thumbnail">
-                            <img src="<?= asset_url($album['path_images']) ?>" style="width: 500px;">
-                        </li>
-                    <?php endforeach; ?>
+                <?php foreach ($albums as $album): ?>
+                <li class="thumbnail">
+                    <img src="<?= asset_url($album['path_images']) ?>" style="width: 500px;">
+                </li>
+                <?php endforeach; ?>
                 <?php endif; ?>
             </ul>
 
@@ -101,135 +101,134 @@
 
 
 <style>
-    .splide__slide {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+.splide__slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    .splide__slide img {
-        width: 80%;
-        height: auto;
-        border-radius: 8px;
-    }
+.splide__slide img {
+    width: 80%;
+    height: auto;
+    border-radius: 8px;
+}
 
-    .thumbnails {
-        display: flex;
-        margin: 1rem auto 0;
-        padding: 0;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+.thumbnails {
+    display: flex;
+    margin: 1rem auto 0;
+    padding: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 
-    .thumbnail {
-        width: 70px;
-        height: 70px;
-        overflow: hidden;
-        list-style: none;
-        margin: 0 0.2rem;
-        cursor: pointer;
-        border: 2px solid transparent;
-        transition: border-color 0.3s;
-    }
+.thumbnail {
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    list-style: none;
+    margin: 0 0.2rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
 
-    .thumbnail:hover {
-        border-color: rgba(4, 131, 33, 1);
-        border-radius: 4px;
-    }
+.thumbnail:hover {
+    border-color: rgba(4, 131, 33, 1);
+    border-radius: 4px;
+}
 
-    .thumbnail img {
-        width: 100%;
-        height: auto;
-        border-radius: 4px;
-    }
+.thumbnail img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
 
-    .is-active {
-        border-color: rgba(45, 208, 80, 1);
-        border-radius: 4px;
-    }
+.is-active {
+    border-color: rgba(45, 208, 80, 1);
+    border-radius: 4px;
+}
 
-    @media screen and (max-width: 992px) {
-        .dropdown-menu {
-            left: 65px !important;
-        }
+@media screen and (max-width: 992px) {
+    .dropdown-menu {
+        left: 65px !important;
     }
+}
 </style>
 
 
 
 <script>
-    $(document).ready(function () {
+$(document).ready(function() {
 
-        let dataid = '0';
+    let dataid = '0';
 
-        $('.btn-green-gradient').on('click', function () {
-            let target = $(this).attr('data-target');
-            dataid = $(this).attr('data-id');
+    $('.btn-green-gradient').on('click', function() {
+        let target = $(this).attr('data-target');
+        dataid = $(this).attr('data-id');
 
-            $('.item-content').addClass('d-none');
-            $(target).removeClass('d-none');
-            $('.btn-green-gradient').removeClass('active');
-            $(this).addClass('active');
-
-            loadContentActivity(dataid);
-        });
-
-        var splide = new Splide('#main-carousel', {
-            pagination: false,
-        });
-
-        // เก็บรายชื่อ thumbnails
-        var thumbnails = document.getElementsByClassName('thumbnail');
-        var current;
-
-        for (var i = 0; i < thumbnails.length; i++) {
-            initThumbnail(thumbnails[i], i);
-        }
-
-        function initThumbnail(thumbnail, index) {
-            thumbnail.addEventListener('click', function () {
-                splide.go(index);
-            });
-        }
-
-        splide.on('mounted move', function () {
-            var thumbnail = thumbnails[splide.index];
-
-            if (thumbnail) {
-                if (current) {
-                    current.classList.remove('is-active'); // ลบคลาส is-active
-                }
-
-                thumbnail.classList.add('is-active'); // เพิ่มคลาส is-active
-                current = thumbnail;
-            }
-        });
-
-        splide.mount();
-
-
+        $('.item-content').addClass('d-none');
+        $(target).removeClass('d-none');
+        $('.btn-green-gradient').removeClass('active');
+        $(this).addClass('active');
 
         loadContentActivity(dataid);
-    })
+    });
 
-    function loadContentActivity(dataid) {
-        $.ajax({
-            url: `${asset_url}content_activity`,
-            type: 'POST',
-            data: {
-                id: dataid,
-                '<?= csrf_token() ?>': '<?= csrf_hash() ?>'
-            },
-            headers: {
-                '<?= csrf_header() ?>': '<?= csrf_hash() ?>'
-            },
-            dataType: 'html',
-            success: function (result) {
-                $('#content_' + dataid).html(result);
-            }
-        })
+    var splide = new Splide('#main-carousel', {
+        pagination: false,
+    });
 
+    // เก็บรายชื่อ thumbnails
+    var thumbnails = document.getElementsByClassName('thumbnail');
+    var current;
+
+    for (var i = 0; i < thumbnails.length; i++) {
+        initThumbnail(thumbnails[i], i);
     }
 
+    function initThumbnail(thumbnail, index) {
+        thumbnail.addEventListener('click', function() {
+            splide.go(index);
+        });
+    }
+
+    splide.on('mounted move', function() {
+        var thumbnail = thumbnails[splide.index];
+
+        if (thumbnail) {
+            if (current) {
+                current.classList.remove('is-active'); // ลบคลาส is-active
+            }
+
+            thumbnail.classList.add('is-active'); // เพิ่มคลาส is-active
+            current = thumbnail;
+        }
+    });
+
+    splide.mount();
+
+
+
+    loadContentActivity(dataid);
+})
+
+function loadContentActivity(dataid) {
+    $.ajax({
+        url: `${asset_url}content_activity`,
+        type: 'POST',
+        data: {
+            id: dataid,
+            '<?= csrf_token() ?>': '<?= csrf_hash() ?>'
+        },
+        headers: {
+            '<?= csrf_header() ?>': '<?= csrf_hash() ?>'
+        },
+        dataType: 'html',
+        success: function(result) {
+            $('#content_' + dataid).html(result);
+        }
+    })
+
+}
 </script>
 <?= $this->endSection() ?>

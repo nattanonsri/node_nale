@@ -121,11 +121,11 @@
                         </div>
                         <div class="col-12 mt-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type_total" id="limited" value="limited">
+                                <input class="form-check-input" type="radio" name="type_total" id="limited" value="limited" checked>
                                 <label class="form-check-label" for="limited"><?= lang('backend.limited') ?></label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type_total" id="unlimited" value="unlimited" checked>
+                                <input class="form-check-input" type="radio" name="type_total" id="unlimited" value="unlimited">
                                 <label class="form-check-label" for="unlimited"><?= lang('backend.unlimited') ?></label>
                             </div>
 
@@ -224,11 +224,12 @@
         loadContentAlbum();
         loadContentBook();
 
+
         $('#limited').on('change, click', function () {
-            $('#num_total').hide();
+            $('#num_total').show();
         })
         $('#unlimited').on('change, click', function () {
-            $('#num_total').show();
+            $('#num_total').hide();
         })
 
         $('input[name="datetimes"]').daterangepicker({

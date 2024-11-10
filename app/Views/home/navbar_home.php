@@ -22,7 +22,7 @@
                         <li class="nav-item">
                             <a href="<?= base_url('#home') ?>" class="nav-link fs-4">หน้าแรก</a>
                         </li>
-                        <li class="nav-item mx-4">
+                        <li class="nav-item mx-lg-4">
                             <a href="<?= base_url('#activity') ?>" class="nav-link fs-4">กิจกรรมชุมชนโหนดนาเล</a>
                         </li>
                         <li class="nav-item">

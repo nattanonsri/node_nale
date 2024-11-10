@@ -50,6 +50,16 @@ class HomeController extends BaseController
         return view('home/shopping/booking_activity', $data);
     }
 
+    public function delete_booking($uuid = '')
+    {
+        $booking = $this->activityBookModel->where('uuid', $uuid)->first();
+        $booking_delete = $this->activityBookModel->delete($booking['id']);
+
+        if ($booking_delete) {
+            return redirect()->to(base_url('bookingActivity#shopping'), 'refresh');
+        }
+    }
+
     public function activity_detail($uuid)
     {
         $data['items'] = $this->activityItemModel->countAllResults();
